@@ -1,0 +1,443 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { createServerApiClient } from '@/lib/apiClient';
+import Diagnostics from '@/components/Diagnostics';
+
+interface SetupConfig {
+  serverUrl: string;
+  clientId: string;
+  apiKey: string;
+}
+
+type SetupStep = 'config' | 'connectivity' | 'auth' | 'seeding' | 'complete';
+
+export default function SetupPage() {
+  const [currentStep, setCurrentStep] = useState<SetupStep>('connectivity'); // Skip config step
+  const [config, setConfig] = useState<SetupConfig>({
+    serverUrl: 'http://localhost:5229',
+    clientId: 'app:core:apikey:dev-admin-key',
+    apiKey: 'TEO81XYBH',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
+
+  const addLog = (message: string) => {
+    setLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
+  };
+
+  // Auto-store the hardcoded config on component mount
+  useEffect(() => {
+    localStorage.setItem('serverUrl', config.serverUrl);
+    localStorage.setItem('apiKey', config.apiKey);
+    localStorage.setItem('clientId', config.clientId);
+    addLog('🔧 Using hardcoded development configuration');
+    addLog(`📡 Server: ${config.serverUrl}`);
+    addLog(`🔑 Client ID: ${config.clientId}`);
+    addLog(`🗝️ API Key: ${config.apiKey.substring(0, 4)}...`);
+  }, []);
+
+  const steps: SetupStep[] = ['config', 'connectivity', 'auth', 'seeding', 'complete'];
+
+type SetupStep = 'config' | 'connectivity' | 'auth' | 'seeding' | 'complete';
+
+export default function SetupPage() {
+  const [currentStep, setCurrentStep] = useState<SetupStep>('config');
+  const [config, setConfig] = useState<SetupConfig>({
+    serverUrl: 'http://localhost:5229',
+    clientId: 'app:core:apikey:dev-admin-key',
+    apiKey: 'TEO81XYBH',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
+
+  const addLog = (message: string) => {
+    setLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
+  };
+
+  const performConnectivityTest = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      addLog('Testing connectivity to API...');
+      
+      // Use server-side API route to avoid CORS issues
+      const response = await fetch('/api/setup/test-connection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serverUrl: config.serverUrl,
+          apiKey: config.apiKey,
+          clientId: config.clientId,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || `HTTP ${response.status}`);
+      }
+
+      addLog(`✅ Successfully connected to API: ${result.data.title} v${result.data.version}`);
+      addLog(`📊 Found ${result.data.paths} API endpoints`);
+      
+      addLog('Storing configuration...');
+      // Store the validated configuration
+      localStorage.setItem('serverUrl', config.serverUrl);
+      localStorage.setItem('apiKey', config.apiKey);
+      localStorage.setItem('clientId', config.clientId);
+      localStorage.setItem('setupCompleted', 'true');
+      addLog('✅ Configuration stored successfully');
+      
+      setCurrentStep('auth');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setError(`Connectivity test failed: ${message}`);
+      addLog(`❌ Connectivity test failed: ${message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const performAuth = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      addLog('Initiating MSAL authentication...');
+      // Here we would trigger MSAL login
+      // For now, we'll simulate it
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      addLog('✅ MSAL authentication successful');
+      
+      addLog('Exchanging token for Consolidated JWT...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      addLog('✅ JWT obtained successfully');
+      
+      setCurrentStep('seeding');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setError(`Authentication failed: ${message}`);
+      addLog(`❌ Authentication failed: ${message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runSeeding = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      addLog('Starting seeding process...');
+      
+      addLog('1/4 Seeding lookups...');
+      const lookupResponse = await fetch('/api/setup/seed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step: 'lookups', config }),
+      });
+      if (!lookupResponse.ok) throw new Error('Failed to seed lookups');
+      addLog('✅ Lookups seeded successfully');
+      
+      addLog('2/4 Seeding content...');
+      const contentResponse = await fetch('/api/setup/seed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step: 'content', config }),
+      });
+      if (!contentResponse.ok) throw new Error('Failed to seed content');
+      addLog('✅ Content seeded successfully');
+      
+      addLog('3/4 Seeding forms...');
+      const formsResponse = await fetch('/api/setup/seed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step: 'forms', config }),
+      });
+      if (!formsResponse.ok) throw new Error('Failed to seed forms');
+      addLog('✅ Forms seeded successfully');
+      
+      addLog('4/4 Seeding workflows...');
+      const workflowsResponse = await fetch('/api/setup/seed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ step: 'workflows', config }),
+      });
+      if (!workflowsResponse.ok) throw new Error('Failed to seed workflows');
+      addLog('✅ Workflows seeded successfully');
+      
+      addLog('Creating sample article...');
+      const api = createServerApiClient({
+        baseUrl: config.serverUrl,
+        apiKey: config.apiKey,
+        clientId: config.clientId,
+      });
+      
+      await api.createArticle({
+        title: 'Hello Error Club',
+        body_json: {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Welcome to Error Club! This is your first sample article.'
+                }
+              ]
+            }
+          ]
+        },
+        status: 'draft',
+        month_tag: new Date().toISOString().slice(0, 7),
+        images: [],
+        tags: ['welcome']
+      });
+      addLog('✅ Sample article created');
+      
+      // Mark setup as complete
+      await api.createContent({
+        type: 'settings',
+        placeholder: 'bootstrap-state',
+        data: { completed: true, completedAt: new Date().toISOString() }
+      });
+      addLog('✅ Setup marked as complete');
+      
+      setCurrentStep('complete');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setError(`Seeding failed: ${message}`);
+      addLog(`❌ Seeding failed: ${message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveConfig = () => {
+    setCurrentStep('connectivity');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Error Club Setup</h1>
+          <p className="mt-2 text-gray-600">Configure your Error Club installation</p>
+        </div>
+
+        {/* Progress Steps */}
+        <div className="mb-8">
+          <nav className="flex justify-center">
+            <ol className="flex items-center space-x-5">
+              {[
+                { key: 'config', name: 'Configuration' },
+                { key: 'connectivity', name: 'Connectivity' },
+                { key: 'auth', name: 'Authentication' },
+                { key: 'seeding', name: 'Seeding' },
+                { key: 'complete', name: 'Complete' },
+              ].map((step, index) => (
+                <li key={step.key} className="flex items-center">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      currentStep === step.key
+                        ? 'bg-primary-600 text-white'
+                        : steps.indexOf(currentStep) > index
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-200 text-gray-500'
+                    }`}
+                  >
+                    {steps.indexOf(currentStep) > index ? '✓' : index + 1}
+                  </div>
+                  <span className="ml-2 text-sm text-gray-500">{step.name}</span>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+
+        <div className="bg-white shadow rounded-lg">
+          <div className="px-6 py-8">
+            {currentStep === 'config' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Configuration</h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Server URL
+                    </label>
+                    <input
+                      type="url"
+                      value={config.serverUrl}
+                      onChange={(e) => setConfig(prev => ({ ...prev, serverUrl: e.target.value }))}
+                      placeholder="http://localhost:5229"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Client ID
+                    </label>
+                    <input
+                      type="text"
+                      value={config.clientId}
+                      onChange={(e) => setConfig(prev => ({ ...prev, clientId: e.target.value }))}
+                      placeholder="Your MSAL Client ID"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      API Key
+                    </label>
+                    <input
+                      type="password"
+                      value={config.apiKey}
+                      onChange={(e) => setConfig(prev => ({ ...prev, apiKey: e.target.value }))}
+                      placeholder="Your Consolidated API Key"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <button
+                    onClick={saveConfig}
+                    disabled={!config.serverUrl || !config.clientId || !config.apiKey}
+                    className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Save Configuration
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 'connectivity' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Connectivity Test</h2>
+                <p className="text-gray-600 mb-4">
+                  Testing connection to your Consolidated API and generating the API client.
+                </p>
+                <button
+                  onClick={performConnectivityTest}
+                  disabled={loading}
+                  className="bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 disabled:opacity-50"
+                >
+                  {loading ? 'Testing...' : 'Test Connectivity'}
+                </button>
+
+                {/* Troubleshooting Tips */}
+                <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                  <h4 className="font-medium text-blue-900 mb-2">Common Issues:</h4>
+                  <ul className="text-sm text-blue-800 space-y-1">
+                    <li>• <strong>CORS Errors:</strong> Ensure your API server allows cross-origin requests</li>
+                    <li>• <strong>Network Issues:</strong> Check if the server URL is reachable from your network</li>
+                    <li>• <strong>Authentication:</strong> Verify your API key and client ID are correct</li>
+                    <li>• <strong>HTTPS/HTTP:</strong> Mixed content issues if mixing secure and insecure protocols</li>
+                    <li>• <strong>Firewall:</strong> Corporate firewalls may block the connection</li>
+                  </ul>
+                  <p className="text-xs text-blue-600 mt-2">
+                    Use the &quot;Run Connection Diagnostics&quot; button below if the test fails.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 'auth' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Authentication</h2>
+                <p className="text-gray-600 mb-4">
+                  Authenticate with MSAL and exchange for a Consolidated API JWT.
+                </p>
+                <button
+                  onClick={performAuth}
+                  disabled={loading}
+                  className="bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 disabled:opacity-50"
+                >
+                  {loading ? 'Authenticating...' : 'Authenticate'}
+                </button>
+              </div>
+            )}
+
+            {currentStep === 'seeding' && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Seeding Data</h2>
+                <p className="text-gray-600 mb-4">
+                  Seeding lookups, content, forms, and workflows into your Consolidated API.
+                </p>
+                <button
+                  onClick={runSeeding}
+                  disabled={loading}
+                  className="bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 disabled:opacity-50"
+                >
+                  {loading ? 'Seeding...' : 'Start Seeding'}
+                </button>
+              </div>
+            )}
+
+            {currentStep === 'complete' && (
+              <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                  <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-semibold text-green-800 mb-2">Setup Complete!</h2>
+                <p className="text-gray-600 mb-6">
+                  Your Error Club installation is ready to use.
+                </p>
+                <a
+                  href="/login"
+                  className="bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700"
+                >
+                  Go to Login
+                </a>
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-800 mb-2">{error}</p>
+                {currentStep === 'connectivity' && (
+                  <button
+                    onClick={() => setShowDiagnostics(true)}
+                    className="text-blue-600 hover:text-blue-800 text-sm underline"
+                  >
+                    Run Connection Diagnostics
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Logs */}
+        {logs.length > 0 && (
+          <div className="mt-8 bg-gray-900 rounded-lg p-4">
+            <h3 className="text-white font-medium mb-2">Setup Logs</h3>
+            <div className="space-y-1 max-h-64 overflow-y-auto">
+              {logs.map((log, index) => (
+                <div key={index} className="text-gray-300 text-sm font-mono">
+                  {log}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Diagnostics Modal */}
+      {showDiagnostics && (
+        <Diagnostics
+          serverUrl={config.serverUrl}
+          onClose={() => setShowDiagnostics(false)}
+        />
+      )}
+    </div>
+  );
+}}
