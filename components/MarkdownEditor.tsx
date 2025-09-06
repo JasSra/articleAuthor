@@ -16,6 +16,7 @@ import { useAuth } from '@/lib/auth/StableMSALProvider';
 import { uploadFile } from '@/lib/upload';
 import type { AISuggestion, PredictionContext } from '@/api/consolidated';
 import Image from 'next/image';
+import PasteImportModal from './PasteImportModal';
 
 interface MarkdownEditorProps {
   value?: string;
@@ -32,6 +33,7 @@ interface EditorToolbarProps {
   onApplySuggestion: (suggestion: AISuggestion) => void;
   showPreview: boolean;
   onTogglePreview: () => void;
+  onOpenPasteImport: () => void;
 }
 
 const EditorToolbar: React.FC<EditorToolbarProps> = ({
@@ -41,6 +43,7 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
   onApplySuggestion,
   showPreview,
   onTogglePreview,
+  onOpenPasteImport,
 }) => {
   return (
     <div className="flex items-center justify-between p-3 bg-gray-50 border-b border-gray-200">
@@ -169,6 +172,13 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
         >
           📷 Image
         </label>
+        <button
+          onClick={onOpenPasteImport}
+          className="px-2 py-1 rounded text-sm text-gray-600 hover:bg-gray-100"
+          title="Import from clipboard"
+        >
+          📋 Import
+        </button>
 
         {/* Quote and Divider */}
         <button
@@ -309,6 +319,7 @@ export default function MarkdownEditor({
   const [showPreview, setShowPreview] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<AISuggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [isPasteModalOpen, setIsPasteModalOpen] = useState(false);
   const { jwt } = useAuth();
 
   const editor = useEditor({
@@ -509,7 +520,17 @@ export default function MarkdownEditor({
         aiSuggestions={aiSuggestions}
         onApplySuggestion={handleApplySuggestion}
         showPreview={showPreview}
-        onTogglePreview={() => setShowPreview(!showPreview)}
+  onTogglePreview={() => setShowPreview(!showPreview)}
+  onOpenPasteImport={() => setIsPasteModalOpen(true)}
+      />
+
+      <PasteImportModal
+        isOpen={isPasteModalOpen}
+        onClose={() => setIsPasteModalOpen(false)}
+        onConfirm={({ markdown: md }) => {
+          editor?.chain().focus().insertContent(`\n\n${md}\n\n`).run();
+          setIsPasteModalOpen(false);
+        }}
       />
 
       {/* Editor Area */}
@@ -529,7 +550,7 @@ export default function MarkdownEditor({
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeHighlight]}
                   components={{
-                    img: ({ src, alt }) => (
+                    img: ({ src, alt }: { src?: string; alt?: string }) => (
                       <Image 
                         src={src || ''} 
                         alt={alt || ''} 
@@ -538,7 +559,7 @@ export default function MarkdownEditor({
                         className="max-w-full h-auto rounded-lg shadow-sm" 
                       />
                     ),
-                    a: ({ href, children }) => (
+                    a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
                       <a href={href} className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">
                         {children}
                       </a>
