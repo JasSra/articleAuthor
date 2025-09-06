@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/lib/auth/MSALProvider';
+import { useAuth } from '@/lib/auth/StableMSALProvider';
 
 export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
@@ -24,7 +24,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Error Club</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Code Chronicle</h1>
           <p className="text-lg text-gray-600">Write. Review. Publish.</p>
         </div>
       </div>

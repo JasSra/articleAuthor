@@ -41,6 +41,8 @@ export interface ApiClientConfig {
 
 export class ApiClient {
   private config: ApiClientConfig;
+  private rateLimiter: Map<string, number> = new Map();
+  private readonly RATE_LIMIT_MS = 100; // Minimum 100ms between identical requests
 
   constructor(config: ApiClientConfig) {
     this.config = config;
@@ -51,6 +53,18 @@ export class ApiClient {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
     body?: any
   ): Promise<T> {
+    // Rate limiting - prevent identical requests within short timeframe
+    const requestKey = `${method}:${endpoint}:${JSON.stringify(body) || ''}`;
+    const lastRequest = this.rateLimiter.get(requestKey);
+    const now = Date.now();
+    
+    if (lastRequest && (now - lastRequest) < this.RATE_LIMIT_MS) {
+      console.warn(`Rate limited: ${requestKey}`);
+      await this.delay(this.RATE_LIMIT_MS);
+    }
+    
+    this.rateLimiter.set(requestKey, now);
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'X-Correlation-ID': uuidv4(),
@@ -146,6 +160,17 @@ export class ApiClient {
 
   async getArticleById(id: string): Promise<Article> {
     return this.makeRequest(`/api/Data/by/${id}`);
+  }
+
+  async getArticleBySlug(slug: string): Promise<Article> {
+    // Since there's no direct slug endpoint, we'll get all articles and filter by slug
+    // In a real app, this should be optimized with a proper API endpoint
+    const articles = await this.getArticles();
+    const article = articles.items.find((a: Article) => a.slug === slug);
+    if (!article) {
+      throw new Error('Article not found');
+    }
+    return article;
   }
 
   async createArticle(article: Partial<Article>): Promise<Article> {

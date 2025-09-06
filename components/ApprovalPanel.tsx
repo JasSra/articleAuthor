@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Article, createApiClient } from '@/lib/apiClient';
-import { useAuth } from '@/lib/auth/MSALProvider';
+import { useAuth } from '@/lib/auth/StableMSALProvider';
 
 interface ApprovalPanelProps {
   article: Article;

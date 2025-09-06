@@ -1,14 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
-import Placeholder from '@tiptap/extension-placeholder';
 import { Article, createApiClient } from '@/lib/apiClient';
-import { useAuth } from '@/lib/auth/MSALProvider';
-import { uploadFile } from '@/lib/upload';
+import { useAuth } from '@/lib/auth/StableMSALProvider';
 import StatusBadge from './StatusBadge';
+import WorkflowVisualization from './WorkflowVisualization';
+import MarkdownEditor from './MarkdownEditor';
 
 interface ArticleFormProps {
   article?: Article;
@@ -21,28 +18,31 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
   const [slug, setSlug] = useState(article?.slug || '');
   const [tags, setTags] = useState<string[]>(article?.tags || []);
   const [status, setStatus] = useState(article?.status || 'draft');
+  const [content, setContent] = useState('');
+  const [contentHtml, setContentHtml] = useState('');
   const [loading, setLoading] = useState(false);
   const { jwt } = useAuth();
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Image.configure({
-        HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg',
-        },
-      }),
-      Placeholder.configure({
-        placeholder: 'Start writing your article...',
-      }),
-    ],
-    content: article?.body_json || '',
-    editorProps: {
-      attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] p-4',
-      },
-    },
-  });
+  // Initialize content from article if editing
+  useEffect(() => {
+    if (article?.body_json) {
+      // Convert JSON content to markdown if needed
+      const htmlContent = typeof article.body_json === 'string' ? article.body_json : JSON.stringify(article.body_json);
+      setContentHtml(htmlContent);
+      // Basic HTML to markdown conversion for initial content
+      const markdownContent = htmlContent
+        .replace(/<h1>(.*?)<\/h1>/g, '# $1\n\n')
+        .replace(/<h2>(.*?)<\/h2>/g, '## $1\n\n')
+        .replace(/<h3>(.*?)<\/h3>/g, '### $1\n\n')
+        .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+        .replace(/<em>(.*?)<\/em>/g, '*$1*')
+        .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
+        .replace(/<br\s*\/?>/g, '\n')
+        .replace(/<[^>]*>/g, '')
+        .trim();
+      setContent(markdownContent);
+    }
+  }, [article]);
 
   // Generate slug from title
   useEffect(() => {
@@ -55,30 +55,23 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
     }
   }, [title, article]);
 
-  const handleImageUpload = async (file: File) => {
-    if (!jwt) return;
-
-    try {
-      const url = await uploadFile(jwt, file);
-      editor?.chain().focus().setImage({ src: url }).run();
-    } catch (error) {
-      console.error('Failed to upload image:', error);
-    }
+  const handleContentChange = (markdown: string, html: string) => {
+    setContent(markdown);
+    setContentHtml(html);
   };
 
   const handleSave = async () => {
-    if (!jwt || !editor) return;
+    if (!jwt) return;
 
     setLoading(true);
     try {
       const api = createApiClient({ jwt });
-      const body_json = editor.getJSON();
       
       const articleData = {
         title,
         slug,
-        body_json,
-        images: [], // Extract from body_json if needed
+        body_json: contentHtml, // Store the HTML version
+        images: [], // Extract from contentHtml if needed
         status,
         tags,
         month_tag: new Date().toISOString().slice(0, 7),
@@ -134,10 +127,6 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
   const removeTag = (tag: string) => {
     setTags(tags.filter(t => t !== tag));
   };
-
-  if (!editor) {
-    return <div>Loading editor...</div>;
-  }
 
   return (
     <div className="max-w-4xl mx-auto bg-white shadow rounded-lg">
@@ -241,63 +230,21 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Content
           </label>
-          <div className="border border-gray-300 rounded-md overflow-hidden">
-            {/* Editor Toolbar */}
-            <div className="flex items-center space-x-2 p-3 bg-gray-50 border-b border-gray-200">
-              <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={`px-2 py-1 rounded text-sm ${
-                  editor.isActive('bold') ? 'bg-primary-100 text-primary-800' : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                Bold
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={`px-2 py-1 rounded text-sm ${
-                  editor.isActive('italic') ? 'bg-primary-100 text-primary-800' : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                Italic
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={`px-2 py-1 rounded text-sm ${
-                  editor.isActive('heading', { level: 2 }) ? 'bg-primary-100 text-primary-800' : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                H2
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={`px-2 py-1 rounded text-sm ${
-                  editor.isActive('bulletList') ? 'bg-primary-100 text-primary-800' : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                • List
-              </button>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) handleImageUpload(file);
-                }}
-                className="hidden"
-                id="image-upload"
-              />
-              <label
-                htmlFor="image-upload"
-                className="px-2 py-1 rounded text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
-              >
-                📷 Image
-              </label>
-            </div>
-
-            {/* Editor Content */}
-            <EditorContent editor={editor} />
-          </div>
+          <MarkdownEditor
+            value={content}
+            onChange={handleContentChange}
+            placeholder="Start writing your article..."
+            enableAISuggestions={true}
+            className="min-h-[500px]"
+          />
         </div>
+
+        {/* Workflow Visualization - show when editing existing article */}
+        {article && (
+          <div className="mt-6 bg-gray-50 p-6 rounded-lg">
+            <WorkflowVisualization currentStatus={status} />
+          </div>
+        )}
       </div>
     </div>
   );

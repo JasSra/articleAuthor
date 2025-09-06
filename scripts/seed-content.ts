@@ -15,8 +15,8 @@ export async function seedContent() {
       type: 'hero',
       placeholder: 'home-hero',
       data: {
-        title: 'Error Club',
-        subtitle: 'Write. Review. Publish.',
+        title: 'Code Chronicle',
+        subtitle: 'Write. Read. Inspire.',
         imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=600&fit=crop'
       }
     });
@@ -31,7 +31,7 @@ export async function seedContent() {
       type: 'text',
       placeholder: 'about-text',
       data: {
-        content: 'Error Club is a platform for technical writers to share their expertise and learn from others.'
+        content: 'Code Chronicle is a vibrant community where writers, bloggers, and content creators share their stories, inspire readers, and connect with fellow storytellers.'
       }
     });
 

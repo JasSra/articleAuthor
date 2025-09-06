@@ -1,3 +1,92 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Logo Styles */
+.logo-container {
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: baseline;
+}
+
+.logo-code {
+  color: #2563eb; /* blue-600 */
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(37, 99, 235, 0.1);
+}
+
+.logo-chronicle {
+  color: #1f2937; /* gray-800 */
+  margin-left: 0.15rem;
+  position: relative;
+}
+
+.logo-chronicle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #2563eb, #3b82f6, #6366f1);
+  transition: width 0.3s ease;
+  border-radius: 1px;
+}
+
+.group:hover .logo-underline {
+  width: 100%;
+}
+
+.group:hover .logo-container {
+  transform: translateY(-1px);
+}
+
+.group:hover .logo-code {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .logo-text {
+    font-size: 1.125rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .logo-chronicle,
+  .logo-chronicle::before {
+    color: #f9fafb; /* gray-50 */
+    background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

@@ -1,15 +1,17 @@
-# Error Club
+# Code Chronicle
 
-A full-stack article management system built with Next.js 14 and the Consolidated API. Write, review, and publish articles with MSAL authentication and TipTap editor.
+A modern platform for writers, bloggers, and content creators to craft, review, and publish compelling stories with seamless collaboration workflows.
+
+A full-stack content management system built with Next.js 14 and the Consolidated API. Write, edit, and publish articles with MSAL authentication and TipTap editor.
 
 ## Features
 
 - 🔐 **MSAL Authentication** - Secure login with Microsoft Azure AD
 - ✍️ **Rich Text Editor** - TipTap editor with image upload support
-- 📝 **Article Management** - Draft, submit, review, and publish workflow
-- 👥 **Role-Based Access** - Contributor, Editor, Publisher, and Admin roles
-- 🔄 **Workflow Engine** - Automated state transitions and approvals
-- 📊 **Content Management** - Lookups, content slots, and forms
+- 📝 **Content Management** - Draft, edit, review, and publish workflow
+- 👥 **Role-Based Access** - Writer, Editor, Publisher, and Admin roles
+- 🔄 **Editorial Workflow** - Automated review process and approvals
+- 📊 **Content Organization** - Categories, tags, and content management
 - 🚀 **Modern Stack** - Next.js 14, TypeScript, Tailwind CSS
 - 🐳 **Docker Ready** - Containerized deployment
 
@@ -100,10 +102,10 @@ NEXT_PUBLIC_POST_LOGOUT_URI=http://localhost:3000/
 
 | Role | Permissions |
 |------|-------------|
-| **Contributor** | Create/edit own drafts, submit for review |
-| **Editor** | Review queue, approve/reject articles with notes |
-| **Publisher** | Schedule/publish articles, manage issues |
-| **Admin** | Manage lookups, content, workflows, and users |
+| **Writer** | Create/edit own drafts, submit stories for review |
+| **Editor** | Review queue, approve/reject content with editorial notes |
+| **Publisher** | Schedule/publish content, manage publication calendar |
+| **Admin** | Manage site content, workflows, and user permissions |
 
 ## Workflow States
 
@@ -226,4 +228,4 @@ For issues and questions:
 
 ---
 
-**Error Club** - Write. Review. Publish.
+**Code Chronicle** - Write. Read. Inspire.

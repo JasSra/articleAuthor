@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Article, createApiClient } from '@/lib/apiClient';
-import { useAuth } from '@/lib/auth/MSALProvider';
+import { useAuth } from '@/lib/auth/StableMSALProvider';
 import StatusBadge from '@/components/StatusBadge';
 import Guard from '@/components/Guard';
+import ShareArticle from '@/components/ShareArticle';
 import Link from 'next/link';
 
 export default function ArticlesPage() {
@@ -195,37 +196,51 @@ export default function ArticlesPage() {
                       )}
                     </div>
                     
-                    <div className="flex items-center space-x-3">
-                      {article.status === 'draft' && (
-                        <Link
-                          href={`/submit?edit=${article.id}`}
-                          className="text-sm text-primary-600 hover:text-primary-700"
-                        >
-                          Edit
-                        </Link>
+                    <div className="flex flex-col space-y-3">
+                      <div className="flex items-center space-x-3">
+                        {article.status === 'draft' && (
+                          <Link
+                            href={`/submit?edit=${article.id}`}
+                            className="text-sm text-primary-600 hover:text-primary-700"
+                          >
+                            Edit
+                          </Link>
+                        )}
+                        
+                        <Guard role={['Editor', 'Publisher']}>
+                          {article.status === 'submitted' && (
+                            <Link
+                              href={`/review?article=${article.id}`}
+                              className="text-sm text-blue-600 hover:text-blue-700"
+                            >
+                              Review
+                            </Link>
+                          )}
+                        </Guard>
+                        
+                        <Guard role="Publisher">
+                          {article.status === 'approved' && (
+                            <Link
+                              href={`/schedule?article=${article.id}`}
+                              className="text-sm text-purple-600 hover:text-purple-700"
+                            >
+                              Schedule
+                            </Link>
+                          )}
+                        </Guard>
+                      </div>
+
+                      {/* Share functionality for published articles */}
+                      {article.status === 'published' && (
+                        <ShareArticle 
+                          article={{ 
+                            title: article.title, 
+                            slug: article.slug, 
+                            id: article.id 
+                          }} 
+                          className="border-t pt-3"
+                        />
                       )}
-                      
-                      <Guard role={['Editor', 'Publisher']}>
-                        {article.status === 'submitted' && (
-                          <Link
-                            href={`/review?article=${article.id}`}
-                            className="text-sm text-blue-600 hover:text-blue-700"
-                          >
-                            Review
-                          </Link>
-                        )}
-                      </Guard>
-                      
-                      <Guard role="Publisher">
-                        {article.status === 'approved' && (
-                          <Link
-                            href={`/schedule?article=${article.id}`}
-                            className="text-sm text-purple-600 hover:text-purple-700"
-                          >
-                            Schedule
-                          </Link>
-                        )}
-                      </Guard>
                     </div>
                   </div>
                 </div>

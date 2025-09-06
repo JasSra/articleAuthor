@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { createServerApiClient } from '@/lib/apiClient';
 import Diagnostics from '@/components/Diagnostics';
+// Use generated API client directly
+import { OpenAPI, DataService, FormService, WorkflowService, LookupService, UserService, StateDefinitionService } from '@/api/consolidated';
 
 interface SetupConfig {
   serverUrl: string;
-  clientId: string;
-  apiKey: string;
 }
 
 type SetupStep = 'connectivity' | 'auth' | 'seeding' | 'complete';
@@ -15,9 +14,7 @@ type SetupStep = 'connectivity' | 'auth' | 'seeding' | 'complete';
 function SetupPage() {
   const [currentStep, setCurrentStep] = useState<SetupStep>('connectivity');
   const [config] = useState<SetupConfig>({
-    serverUrl: 'http://localhost:5229',
-    clientId: 'app:core:apikey:dev-admin-key',
-    apiKey: 'TEO81XYBH',
+  serverUrl: 'http://localhost:5229',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,12 +28,16 @@ function SetupPage() {
   // Auto-store the hardcoded config on component mount
   useEffect(() => {
     localStorage.setItem('serverUrl', config.serverUrl);
-    localStorage.setItem('apiKey', config.apiKey);
-    localStorage.setItem('clientId', config.clientId);
+    // Configure generated API client for all requests on this page
+    OpenAPI.BASE = config.serverUrl;
+  // Use Basic Auth instead of API Key/Client ID
+  OpenAPI.HEADERS = undefined;
+  OpenAPI.USERNAME = 'admin@local';
+  OpenAPI.PASSWORD = 'develop';
+  
     addLog('🔧 Using hardcoded development configuration');
     addLog(`📡 Server: ${config.serverUrl}`);
-    addLog(`🔑 Client ID: ${config.clientId}`);
-    addLog(`🗝️ API Key: ${config.apiKey.substring(0, 4)}...`);
+  addLog(`� Auth: Basic admin@local`);
   }, [config]);
 
   const performConnectivityTest = async () => {
@@ -44,29 +45,11 @@ function SetupPage() {
     setError(null);
 
     try {
-      addLog('Testing connectivity to API...');
-      
-      // Use server-side API route to avoid CORS issues
-      const response = await fetch('/api/setup/test-connection', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          serverUrl: config.serverUrl,
-          apiKey: config.apiKey,
-          clientId: config.clientId,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || `HTTP ${response.status}`);
-      }
-
-      addLog(`✅ Successfully connected to API: ${result.data.title} v${result.data.version}`);
-      addLog(`📊 Found ${result.data.paths} API endpoints`);
+  addLog('Testing connectivity to API...');
+  // Validate credentials and connectivity via current user endpoint
+  await UserService.getMyDetails();
+  addLog('✅ Successfully connected to API');
+  addLog('📊 Data endpoint is reachable');
       
       addLog('Storing configuration...');
       localStorage.setItem('setupCompleted', 'true');
@@ -108,72 +91,275 @@ function SetupPage() {
 
     try {
       addLog('Starting seeding process...');
-      
+      // Replace local API routes with direct backend calls using generated client
       addLog('1/4 Seeding lookups...');
-      const lookupResponse = await fetch('/api/setup/seed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ step: 'lookups', config }),
+      // Article statuses
+      await LookupService.lookupAddLookupsToGroup('article-status', {
+        lookups: {
+          draft: 'Draft',
+          submitted: 'Submitted',
+          approved: 'Approved',
+          scheduled: 'Scheduled',
+          published: 'Published',
+        },
       });
-      if (!lookupResponse.ok) throw new Error('Failed to seed lookups');
+      // Article tags
+      await LookupService.lookupAddLookupsToGroup('article-tags', {
+        lookups: {
+          javascript: 'JavaScript',
+          typescript: 'TypeScript',
+          react: 'React',
+          nodejs: 'Node.js',
+          api: 'API Development',
+          database: 'Database',
+          frontend: 'Frontend',
+          backend: 'Backend',
+          devops: 'DevOps',
+          testing: 'Testing',
+        },
+      });
+      // Month tags for current year
+      const currentYear = new Date().getFullYear();
+      const monthLookups: Record<string, string> = {};
+      for (let m = 1; m <= 12; m++) {
+        const mm = m.toString().padStart(2, '0');
+        const key = `${currentYear}-${mm}`;
+        const label = `${new Date(currentYear, m - 1).toLocaleString('default', { month: 'long' })} ${currentYear}`;
+        monthLookups[key] = label;
+      }
+      await LookupService.lookupAddLookupsToGroup('month-tags', { lookups: monthLookups });
       addLog('✅ Lookups seeded successfully');
-      
-      addLog('2/4 Seeding content...');
-      const contentResponse = await fetch('/api/setup/seed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ step: 'content', config }),
+
+  addLog('2/4 Seeding content...');
+      await DataService.createEntity('Core', 'Content', {
+        Type: 'hero',
+        Title: 'Code Chronicle',
+        Description: '',
+        Status: 'Active',
+        Placeholder: 'home-hero',
+        Value: {
+          title: 'Code Chronicle',
+          subtitle: 'Write. Read. Inspire.',
+          imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&h=600&fit=crop',
+        },
+        Properties: {},
+        Classes: '',
+        Children: [],
+        Nested: [],
       });
-      if (!contentResponse.ok) throw new Error('Failed to seed content');
+      await DataService.createEntity('Core', 'Content', {
+        Type: 'showcase',
+        Title: 'Home Showcase',
+        Description: '',
+        Status: 'Active',
+        Placeholder: 'home-showcase',
+        Value: [
+          { title: 'Intuitive Writing', description: 'Rich text editor designed for storytellers and content creators.' },
+          { title: 'Editorial Workflow', description: 'Collaborative editing process from draft to publication.' },
+          { title: 'Community Focused', description: 'Connect with readers, writers, and fellow creators.' },
+        ],
+        Properties: {},
+        Classes: '',
+        Children: [],
+        Nested: [],
+      });
+      await DataService.createEntity('Core', 'Content', {
+        Type: 'text',
+        Title: 'About',
+        Description: '',
+        Status: 'Active',
+        Placeholder: 'about-text',
+        Value: {
+          content: 'Code Chronicle is a vibrant community where writers, bloggers, and content creators share their stories, inspire readers, and connect with fellow storytellers.',
+        },
+        Properties: {},
+        Classes: '',
+        Children: [],
+        Nested: [],
+      });
+      await DataService.createEntity('Core', 'Content', {
+        Type: 'cta',
+        Title: 'Get Started CTA',
+        Description: '',
+        Status: 'Active',
+        Placeholder: 'home-cta',
+        Value: {
+          title: 'Join the Code Chronicle Community',
+          subtitle: 'Share your stories, connect with readers, and inspire others.',
+          primary: { label: 'Start Writing', href: '/submit' },
+          secondary: { label: 'Browse Stories', href: '/articles' },
+        },
+        Properties: {},
+        Classes: '',
+        Children: [],
+        Nested: [],
+      });
       addLog('✅ Content seeded successfully');
-      
+
       addLog('3/4 Seeding forms...');
-      const formsResponse = await fetch('/api/setup/seed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ step: 'forms', config }),
-      });
-      if (!formsResponse.ok) throw new Error('Failed to seed forms');
-      addLog('✅ Forms seeded successfully');
-      
-      addLog('4/4 Seeding workflows...');
-      const workflowsResponse = await fetch('/api/setup/seed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ step: 'workflows', config }),
-      });
-      if (!workflowsResponse.ok) throw new Error('Failed to seed workflows');
-      addLog('✅ Workflows seeded successfully');
+      try {
+        await FormService.createForm({
+          title: 'Article Submission Form',
+          slug: 'article-submission',
+          sections: [
+            {
+              title: 'Main',
+              fields: [
+                { name: 'title', label: 'Article Title', fieldType: 'text', isRequired: true },
+                { name: 'summary', label: 'Article Summary', fieldType: 'textarea', isRequired: true },
+                {
+                  name: 'month_tag',
+                  label: 'Issue Month',
+                  fieldType: 'select',
+                  isRequired: true,
+                  options: Object.keys(monthLookups).map(k => ({ value: k, label: monthLookups[k] })),
+                },
+                {
+                  name: 'tags',
+                  label: 'Tags',
+                  fieldType: 'multi-select',
+                  options: [
+                    { value: 'how-to', label: 'How To' },
+                    { value: 'incident', label: 'Incident' },
+                    { value: 'analysis', label: 'Analysis' },
+                    { value: 'opinion', label: 'Opinion' },
+                  ],
+                },
+              ],
+            },
+          ],
+        } as any);
+
+        await FormService.createForm({
+          title: 'Article Feedback Form',
+          slug: 'article-feedback',
+          sections: [
+            {
+              title: 'Feedback',
+              fields: [
+                {
+                  name: 'rating',
+                  label: 'Overall Rating',
+                  fieldType: 'radio',
+                  isRequired: true,
+                  options: ['1', '2', '3', '4', '5'].map(v => ({ value: v, label: v })),
+                },
+                { name: 'comments', label: 'Comments', fieldType: 'textarea' },
+                { name: 'recommend', label: 'Would you recommend?', fieldType: 'checkbox' },
+              ],
+            },
+          ],
+        } as any);
+        addLog('✅ Forms seeded successfully');
+      } catch (e: any) {
+        const msg = typeof e?.message === 'string' ? e.message : String(e);
+        if (msg.includes('OpenAI API key') || msg.includes('OpenAiApiKey')) {
+          addLog('⚠️ Forms skipped: server requires OPENAI_API_KEY for AI features. Set it to enable form creation.');
+        } else {
+          addLog(`⚠️ Forms skipped due to server error: ${msg}`);
+        }
+      }
+
+      addLog('4/4 Seeding workflows (state machines)...');
+      try {
+        // Idempotent create: check existing state definitions for names
+  const existing = await StateDefinitionService.getApiStateDefinitionAll(1, 200);
+  const names = (existing?.data?.items ?? []).map((n: string) => n?.toLowerCase?.()).filter(Boolean);
+
+        const ensureStateDef = async (def: any) => {
+          const lower = (def.Name as string).toLowerCase();
+          if (names.includes(lower)) {
+            addLog(`↩️ StateDefinition '${def.Name}' already exists, skipping.`);
+            return;
+          }
+          await DataService.createEntity('Core', 'StateDefinition', def);
+          addLog(`✅ StateDefinition '${def.Name}' created`);
+        };
+
+        // Article status workflow as a StateDefinition
+        await ensureStateDef({
+          Name: 'Article Status',
+          FieldName: 'status',
+          Description: 'Workflow for article lifecycle',
+          States: [
+            { Id: 'draft', Label: 'Draft' },
+            { Id: 'in_review', Label: 'In Review' },
+            { Id: 'needs_changes', Label: 'Needs Changes' },
+            { Id: 'approved', Label: 'Approved' },
+            { Id: 'scheduled', Label: 'Scheduled' },
+            { Id: 'published', Label: 'Published' },
+            { Id: 'archived', Label: 'Archived' },
+            { Id: 'rejected', Label: 'Rejected' },
+          ],
+          Transitions: [
+            { FromState: 'draft', ToState: 'in_review' },
+            { FromState: 'in_review', ToState: 'approved' },
+            { FromState: 'in_review', ToState: 'needs_changes' },
+            { FromState: 'in_review', ToState: 'rejected' },
+            { FromState: 'approved', ToState: 'scheduled' },
+            { FromState: 'approved', ToState: 'published' },
+            { FromState: 'scheduled', ToState: 'published' },
+            { FromState: 'published', ToState: 'archived' },
+          ],
+          StartState: 'draft',
+          EndStates: ['archived', 'rejected'],
+        });
+
+        // Content status workflow as a StateDefinition
+        await ensureStateDef({
+          Name: 'Content Status',
+          FieldName: 'status',
+          Description: 'Workflow for content blocks',
+          States: [
+            { Id: 'draft', Label: 'Draft' },
+            { Id: 'published', Label: 'Published' },
+            { Id: 'archived', Label: 'Archived' },
+          ],
+          Transitions: [
+            { FromState: 'draft', ToState: 'published' },
+            { FromState: 'published', ToState: 'archived' },
+          ],
+          StartState: 'draft',
+          EndStates: ['archived'],
+        });
+
+      } catch (e: any) {
+        const msg = typeof e?.message === 'string' ? e.message : String(e);
+        addLog(`⚠️ Workflows skipped due to server error: ${msg}`);
+      }
       
       addLog('Creating sample article...');
-      const api = createServerApiClient({
-        baseUrl: config.serverUrl,
-        apiKey: config.apiKey,
-        clientId: config.clientId,
-      });
-      
-      await api.createArticle({
-        title: 'Hello Error Club',
-        body_json: {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [
-                {
-                  type: 'text',
-                  text: 'Welcome to Error Club! This is your first sample article.'
-                }
-              ]
-            }
-          ]
-        },
-        status: 'draft',
-        month_tag: new Date().toISOString().slice(0, 7),
-        images: [],
-        tags: ['welcome']
-      });
-      addLog('✅ Sample article created');
+      try {
+        await DataService.createEntity('market', 'Article', {
+          title: 'Hello Code Chronicle',
+          body_json: {
+            type: 'doc',
+            content: [
+              {
+                type: 'paragraph',
+                content: [
+                  {
+                    type: 'text',
+                    text: 'Welcome to Code Chronicle! This is your first sample article.'
+                  }
+                ]
+              }
+            ]
+          },
+          status: 'draft',
+          month_tag: new Date().toISOString().slice(0, 7),
+          images: [],
+          tags: ['welcome']
+        });
+        addLog('✅ Sample article created');
+      } catch (e: any) {
+        const msg = typeof e?.message === 'string' ? e.message : String(e);
+        if (msg.toLowerCase().includes('definition not found')) {
+          addLog('⚠️ Sample article skipped: entity definition for market:Article not found on server.');
+        } else {
+          addLog(`⚠️ Sample article skipped due to server error: ${msg}`);
+        }
+      }
       
       addLog('🎉 Setup completed successfully!');
       setCurrentStep('complete');
@@ -190,7 +376,7 @@ function SetupPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Error Club Setup</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Code Chronicle Setup</h1>
           <p className="mt-2 text-gray-600">Development Configuration</p>
         </div>
 
@@ -206,8 +392,7 @@ function SetupPage() {
               <div className="mb-4 p-3 bg-gray-100 rounded text-sm">
                 <strong>Configuration:</strong>
                 <div>Server: {config.serverUrl}</div>
-                <div>Client ID: {config.clientId}</div>
-                <div>API Key: {config.apiKey.substring(0, 4)}...</div>
+                <div>Auth: Basic admin@local</div>
               </div>
 
               <button
@@ -265,7 +450,7 @@ function SetupPage() {
               <div className="text-green-600 text-4xl mb-4">✅</div>
               <h2 className="text-xl font-semibold mb-4">Setup Complete!</h2>
               <p className="text-gray-600 mb-4">
-                Error Club is ready to use. You can now start creating and managing articles.
+                Code Chronicle is ready to use. You can now start creating and managing articles.
               </p>
               <a
                 href="/articles"

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ArticleForm from '@/components/ArticleForm';
-import { useAuth } from '@/lib/auth/MSALProvider';
+import { useAuth } from '@/lib/auth/StableMSALProvider';
 import Link from 'next/link';
 
 export default function SubmitPage() {

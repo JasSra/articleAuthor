@@ -1,13 +1,16 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { MSALProvider } from '@/lib/auth/MSALProvider'
+import StableMSALProvider from '@/lib/auth/StableMSALProvider'
 import { ToastProvider } from '@/components/ToastProvider'
+import SiteHeader from '@/components/SiteHeader'
+import ApiDebugPanel from '@/components/ApiDebugPanel'
+import '@/lib/utils/apiMonitor' // Initialize API monitoring
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Error Club',
-  description: 'Write. Review. Publish.',
+  title: 'Code Chronicle',
+  description: 'A community platform for writers, readers, and content creators to share stories and inspire each other.',
 }
 
 export default function RootLayout({
@@ -18,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MSALProvider>
+        <StableMSALProvider>
           <ToastProvider>
+            <SiteHeader />
             {children}
+            <ApiDebugPanel />
           </ToastProvider>
-        </MSALProvider>
+        </StableMSALProvider>
       </body>
     </html>
   )
