@@ -8,4 +8,3 @@ export type AuthenticatorSelectionCriteria = {
     residentKey?: string | null;
     userVerification?: string | null;
 };
-

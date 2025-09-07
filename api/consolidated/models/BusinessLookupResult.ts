@@ -32,4 +32,3 @@ export type BusinessLookupResult = {
     dateRegisterLastUpdated?: string | null;
     usageStatement?: string | null;
 };
-

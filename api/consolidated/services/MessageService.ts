@@ -11,17 +11,17 @@ import { request as __request } from '../core/request';
 export class MessageService {
 
     /**
-     * @param page
-     * @param size
-     * @param since
+     * @param page 
+     * @param size 
+     * @param since 
      * @returns MessageSearchResult OK
      * @throws ApiError
      */
     public static getMessages(
-        page: number = 1,
-        size: number = 10,
-        since?: string,
-    ): CancelablePromise<MessageSearchResult> {
+page: number = 1,
+size: number = 10,
+since?: string,
+): CancelablePromise<MessageSearchResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Message',
@@ -52,13 +52,13 @@ export class MessageService {
     }
 
     /**
-     * @param messageId
+     * @param messageId 
      * @returns any OK
      * @throws ApiError
      */
     public static markAsRead(
-        messageId: string,
-    ): CancelablePromise<any> {
+messageId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Message/mark-read/{messageId}',
@@ -74,13 +74,13 @@ export class MessageService {
     }
 
     /**
-     * @param messageId
+     * @param messageId 
      * @returns any OK
      * @throws ApiError
      */
     public static markAsUnread(
-        messageId: string,
-    ): CancelablePromise<any> {
+messageId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Message/mark-unread/{messageId}',

@@ -9,4 +9,3 @@ export type MainBusinessPhysicalAddressResult = {
     effectiveFrom?: string | null;
     effectiveTo?: string | null;
 };
-

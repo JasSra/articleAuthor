@@ -9,4 +9,3 @@ export type UserRoleResponse = {
     permissions?: Record<string, 'None' | 'Read' | 'Query' | 'Create' | 'Write' | 'Delete' | 'Execute' | 'Share' | 'Manage' | 'Admin'> | null;
     description?: string | null;
 };
-

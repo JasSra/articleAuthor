@@ -20,15 +20,15 @@ import { request as __request } from '../core/request';
 export class EventTrackerService {
 
     /**
-     * @param eventName
-     * @param requestBody
+     * @param eventName 
+     * @param requestBody 
      * @returns TrackEventResponse OK
      * @throws ApiError
      */
     public static postApiEventTrackerTrack(
-        eventName: string,
-        requestBody?: AIEventPayload,
-    ): CancelablePromise<TrackEventResponse> {
+eventName: string,
+requestBody?: AIEventPayload,
+): CancelablePromise<TrackEventResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/EventTracker/track/{eventName}',
@@ -46,13 +46,13 @@ export class EventTrackerService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns TrackEventResponse OK
      * @throws ApiError
      */
     public static postApiEventTrackerTrackBatch(
-        requestBody?: BatchTrackEventRequest,
-    ): CancelablePromise<Array<TrackEventResponse>> {
+requestBody?: BatchTrackEventRequest,
+): CancelablePromise<Array<TrackEventResponse>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/EventTracker/track/batch',
@@ -66,13 +66,13 @@ export class EventTrackerService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns AISuggestion OK
      * @throws ApiError
      */
     public static postApiEventTrackerSuggestions(
-        requestBody?: PredictionContext,
-    ): CancelablePromise<Array<AISuggestion>> {
+requestBody?: PredictionContext,
+): CancelablePromise<Array<AISuggestion>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/EventTracker/suggestions',
@@ -86,19 +86,19 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param eventPattern
-     * @param userScope
+     * @param from 
+     * @param to 
+     * @param eventPattern 
+     * @param userScope 
      * @returns EventAnalytics OK
      * @throws ApiError
      */
     public static getApiEventTrackerAnalytics(
-        from: string,
-        to: string,
-        eventPattern?: string,
-        userScope: string = 'current',
-    ): CancelablePromise<Array<EventAnalytics>> {
+from: string,
+to: string,
+eventPattern?: string,
+userScope: string = 'current',
+): CancelablePromise<Array<EventAnalytics>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/analytics',
@@ -116,17 +116,17 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param limit
+     * @param from 
+     * @param to 
+     * @param limit 
      * @returns string OK
      * @throws ApiError
      */
     public static getApiEventTrackerHistory(
-        from?: string,
-        to?: string,
-        limit: number = 100,
-    ): CancelablePromise<Array<Record<string, string>>> {
+from?: string,
+to?: string,
+limit: number = 100,
+): CancelablePromise<Array<Record<string, string>>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/history',
@@ -143,13 +143,13 @@ export class EventTrackerService {
     }
 
     /**
-     * @param retentionDays
+     * @param retentionDays 
      * @returns StringOperationResult OK
      * @throws ApiError
      */
     public static postApiEventTrackerCleanup(
-        retentionDays: number = 90,
-    ): CancelablePromise<StringOperationResult> {
+retentionDays: number = 90,
+): CancelablePromise<StringOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/EventTracker/cleanup',
@@ -176,17 +176,17 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param userScope
+     * @param from 
+     * @param to 
+     * @param userScope 
      * @returns EventStatistics OK
      * @throws ApiError
      */
     public static getApiEventTrackerStatistics(
-        from: string,
-        to: string,
-        userScope: string = 'current',
-    ): CancelablePromise<EventStatistics> {
+from: string,
+to: string,
+userScope: string = 'current',
+): CancelablePromise<EventStatistics> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/statistics',
@@ -203,17 +203,17 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param userScope
+     * @param from 
+     * @param to 
+     * @param userScope 
      * @returns string OK
      * @throws ApiError
      */
     public static getApiEventTrackerEventsUnique(
-        from: string,
-        to: string,
-        userScope: string = 'current',
-    ): CancelablePromise<Array<string>> {
+from: string,
+to: string,
+userScope: string = 'current',
+): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/events/unique',
@@ -230,21 +230,21 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param userScope
-     * @param orderBy
-     * @param limit
+     * @param from 
+     * @param to 
+     * @param userScope 
+     * @param orderBy 
+     * @param limit 
      * @returns EventCount OK
      * @throws ApiError
      */
     public static getApiEventTrackerEventsCounts(
-        from: string,
-        to: string,
-        userScope: string = 'current',
-        orderBy: string = 'most',
-        limit: number = 50,
-    ): CancelablePromise<Array<EventCount>> {
+from: string,
+to: string,
+userScope: string = 'current',
+orderBy: string = 'most',
+limit: number = 50,
+): CancelablePromise<Array<EventCount>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/events/counts',
@@ -263,19 +263,19 @@ export class EventTrackerService {
     }
 
     /**
-     * @param from
-     * @param to
-     * @param userScope
-     * @param eventPattern
+     * @param from 
+     * @param to 
+     * @param userScope 
+     * @param eventPattern 
      * @returns number OK
      * @throws ApiError
      */
     public static getApiEventTrackerEventsTotal(
-        from: string,
-        to: string,
-        userScope: string = 'current',
-        eventPattern?: string,
-    ): CancelablePromise<number> {
+from: string,
+to: string,
+userScope: string = 'current',
+eventPattern?: string,
+): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/EventTracker/events/total',

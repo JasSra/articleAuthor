@@ -7,4 +7,3 @@ export type MainNameResult = {
     organisationName?: string | null;
     effectiveFrom?: string | null;
 };
-

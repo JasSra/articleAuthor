@@ -36,4 +36,3 @@ export type FieldDefinition = {
     components?: Array<ConstraintComponent> | null;
     isPhonetic?: boolean;
 };
-

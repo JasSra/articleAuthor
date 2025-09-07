@@ -12,4 +12,3 @@ export type AddLookupRequest = {
     display?: string | null;
     icon?: string | null;
 };
-

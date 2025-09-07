@@ -12,4 +12,3 @@ export type StringSearchResult = {
     queryUsed?: string | null;
     indexUsed?: string | null;
 };
-

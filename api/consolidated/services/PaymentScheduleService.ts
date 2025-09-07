@@ -18,15 +18,15 @@ import { request as __request } from '../core/request';
 export class PaymentScheduleService {
 
     /**
-     * @param page
-     * @param size
+     * @param page 
+     * @param size 
      * @returns StringSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleAll(
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<StringSearchResultOperationResult> {
+page: number = 1,
+size: number = 100,
+): CancelablePromise<StringSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/all',
@@ -44,13 +44,13 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns PaymentScheduleOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentSchedule(
-        id: string,
-    ): CancelablePromise<PaymentScheduleOperationResult> {
+id: string,
+): CancelablePromise<PaymentScheduleOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/{id}',
@@ -61,13 +61,13 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static deleteApiAdevaPaymentSchedule(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/adeva/PaymentSchedule/{id}',
@@ -84,21 +84,21 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
-     * @param from
-     * @param to
-     * @param count
-     * @param isAscending
+     * @param id 
+     * @param from 
+     * @param to 
+     * @param count 
+     * @param isAscending 
      * @returns StringStringDictionaryListOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleAudit(
-        id: string,
-        from?: string,
-        to?: string,
-        count: number = 1000,
-        isAscending: boolean = true,
-    ): CancelablePromise<StringStringDictionaryListOperationResult> {
+id: string,
+from?: string,
+to?: string,
+count: number = 1000,
+isAscending: boolean = true,
+): CancelablePromise<StringStringDictionaryListOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/audit/{id}',
@@ -121,13 +121,13 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleRaw(
-        id: string,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/raw/{id}',
@@ -144,15 +144,15 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
-     * @param requestBody
+     * @param id 
+     * @param requestBody 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static putApiAdevaPaymentScheduleUpdate(
-        id: string,
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+requestBody?: Record<string, any>,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/adeva/PaymentSchedule/update/{id}',
@@ -188,13 +188,13 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BaseCrmEntityOperationResult Created
      * @throws ApiError
      */
     public static postApiAdevaPaymentScheduleCreate(
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+requestBody?: Record<string, any>,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/adeva/PaymentSchedule/create',
@@ -210,15 +210,15 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param page
-     * @param size
+     * @param page 
+     * @param size 
      * @returns ReferenceLookupSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleDisplay(
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
+page: number = 1,
+size: number = 100,
+): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/display',
@@ -236,13 +236,13 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns StringStringListDictionaryOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleNextstates(
-        id: string,
-    ): CancelablePromise<StringStringListDictionaryOperationResult> {
+id: string,
+): CancelablePromise<StringStringListDictionaryOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/nextstates/{id}',
@@ -259,17 +259,17 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param id
-     * @param fieldId
-     * @param newState
-     * @returns void
+     * @param id 
+     * @param fieldId 
+     * @param newState 
+     * @returns void 
      * @throws ApiError
      */
     public static postApiAdevaPaymentScheduleMovetostateFieldNewstate(
-        id: string,
-        fieldId: string,
-        newState: string,
-    ): CancelablePromise<void> {
+id: string,
+fieldId: string,
+newState: string,
+): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/adeva/PaymentSchedule/movetostate/{id}/field/{fieldId}/newstate/{newState}',
@@ -289,15 +289,15 @@ export class PaymentScheduleService {
     }
 
     /**
-     * @param fieldId
-     * @param prefix
+     * @param fieldId 
+     * @param prefix 
      * @returns string OK
      * @throws ApiError
      */
     public static getApiAdevaPaymentScheduleSuggestionsField(
-        fieldId: string,
-        prefix?: string,
-    ): CancelablePromise<Array<string>> {
+fieldId: string,
+prefix?: string,
+): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/PaymentSchedule/suggestions/field/{fieldId}',

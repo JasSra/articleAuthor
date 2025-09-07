@@ -17,4 +17,3 @@ export type PasskeyRegistrationResponse = {
     pubKeyCredParams?: Array<PublicKeyCredentialParameter> | null;
     authenticatorSelection?: AuthenticatorSelectionCriteria;
 };
-

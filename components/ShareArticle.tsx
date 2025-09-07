@@ -14,7 +14,8 @@ interface ShareArticleProps {
 export default function ShareArticle({ article, className = '' }: ShareArticleProps) {
   const [copied, setCopied] = useState(false);
   
-  const articleUrl = `${window.location.origin}/article/${article.slug}`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const articleUrl = `${origin}/article/${article.slug}`;
   
   const copyToClipboard = async () => {
     try {

@@ -18,15 +18,15 @@ import { request as __request } from '../core/request';
 export class BusinessApplicationService {
 
     /**
-     * @param page
-     * @param size
+     * @param page 
+     * @param size 
      * @returns StringSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationAll(
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<StringSearchResultOperationResult> {
+page: number = 1,
+size: number = 100,
+): CancelablePromise<StringSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/all',
@@ -44,13 +44,13 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BusinessApplicationOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplication(
-        id: string,
-    ): CancelablePromise<BusinessApplicationOperationResult> {
+id: string,
+): CancelablePromise<BusinessApplicationOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/{id}',
@@ -61,13 +61,13 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static deleteApiAdevaBusinessApplication(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/adeva/BusinessApplication/{id}',
@@ -84,21 +84,21 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
-     * @param from
-     * @param to
-     * @param count
-     * @param isAscending
+     * @param id 
+     * @param from 
+     * @param to 
+     * @param count 
+     * @param isAscending 
      * @returns StringStringDictionaryListOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationAudit(
-        id: string,
-        from?: string,
-        to?: string,
-        count: number = 1000,
-        isAscending: boolean = true,
-    ): CancelablePromise<StringStringDictionaryListOperationResult> {
+id: string,
+from?: string,
+to?: string,
+count: number = 1000,
+isAscending: boolean = true,
+): CancelablePromise<StringStringDictionaryListOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/audit/{id}',
@@ -121,13 +121,13 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationRaw(
-        id: string,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/raw/{id}',
@@ -144,15 +144,15 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
-     * @param requestBody
+     * @param id 
+     * @param requestBody 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static putApiAdevaBusinessApplicationUpdate(
-        id: string,
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+requestBody?: Record<string, any>,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/adeva/BusinessApplication/update/{id}',
@@ -188,13 +188,13 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BaseCrmEntityOperationResult Created
      * @throws ApiError
      */
     public static postApiAdevaBusinessApplicationCreate(
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+requestBody?: Record<string, any>,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/adeva/BusinessApplication/create',
@@ -210,15 +210,15 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param page
-     * @param size
+     * @param page 
+     * @param size 
      * @returns ReferenceLookupSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationDisplay(
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
+page: number = 1,
+size: number = 100,
+): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/display',
@@ -236,13 +236,13 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns StringStringListDictionaryOperationResult OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationNextstates(
-        id: string,
-    ): CancelablePromise<StringStringListDictionaryOperationResult> {
+id: string,
+): CancelablePromise<StringStringListDictionaryOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/nextstates/{id}',
@@ -259,17 +259,17 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param id
-     * @param fieldId
-     * @param newState
-     * @returns void
+     * @param id 
+     * @param fieldId 
+     * @param newState 
+     * @returns void 
      * @throws ApiError
      */
     public static postApiAdevaBusinessApplicationMovetostateFieldNewstate(
-        id: string,
-        fieldId: string,
-        newState: string,
-    ): CancelablePromise<void> {
+id: string,
+fieldId: string,
+newState: string,
+): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/adeva/BusinessApplication/movetostate/{id}/field/{fieldId}/newstate/{newState}',
@@ -289,15 +289,15 @@ export class BusinessApplicationService {
     }
 
     /**
-     * @param fieldId
-     * @param prefix
+     * @param fieldId 
+     * @param prefix 
      * @returns string OK
      * @throws ApiError
      */
     public static getApiAdevaBusinessApplicationSuggestionsField(
-        fieldId: string,
-        prefix?: string,
-    ): CancelablePromise<Array<string>> {
+fieldId: string,
+prefix?: string,
+): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/adeva/BusinessApplication/suggestions/field/{fieldId}',

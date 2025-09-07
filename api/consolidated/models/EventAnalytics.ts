@@ -12,4 +12,3 @@ export type EventAnalytics = {
     trend?: string | null;
     metrics?: Record<string, any> | null;
 };
-

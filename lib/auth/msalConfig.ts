@@ -36,6 +36,7 @@ export const loginRequest: RedirectRequest = {
     'profile',
     'email',
     // Request at least one API scope so we get an access token acceptable to backend
+    'offline_access',
     MSAL_SCOPES.user
   ]
 }

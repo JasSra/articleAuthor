@@ -8,4 +8,3 @@ export type VerifyWithPayloadRequest = {
     payload: Record<string, any>;
     fields: Array<string>;
 };
-

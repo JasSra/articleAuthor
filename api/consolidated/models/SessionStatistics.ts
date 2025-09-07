@@ -10,4 +10,3 @@ export type SessionStatistics = {
     averageEventsPerSession?: number;
     averagePagesPerSession?: number;
 };
-

@@ -13,4 +13,3 @@ export type OtpConfiguration = {
     useAlphanumeric?: boolean;
     customCharacters?: string | null;
 };
-

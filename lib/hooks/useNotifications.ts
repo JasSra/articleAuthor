@@ -36,7 +36,10 @@ export function useNotifications() {
         setNotifications(prev => [notification, ...prev]);
         setUnreadCount(prev => prev + 1);
         
-        // Show toast for high priority notifications
+        // Show toast for high priority notifications (skip empty messages)
+        if (!notification.message) {
+          return;
+        }
         if (notification.type === 'error' || notification.metadata?.priority === 'high') {
           toast.error(notification.message, {
             duration: 6000,

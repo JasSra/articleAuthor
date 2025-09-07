@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 
 interface GuardProps {
   role: string | string[];
@@ -8,17 +8,15 @@ interface GuardProps {
   fallback?: React.ReactNode;
 }
 
-export default function Guard({ role, children, fallback = null }: GuardProps) {
+const Guard = memo(function Guard({ role, children, fallback = null }: GuardProps) {
   // This would typically check user roles from JWT claims
   // For now, we'll implement a basic version
+  const userRoles = useMemo(() => ['Contributor'], []); // Would come from JWT
+
   const hasRole = (requiredRole: string | string[]) => {
-    // Mock implementation - in real app, would check JWT claims
-    const userRoles = ['Contributor']; // Would come from JWT
-    
     if (Array.isArray(requiredRole)) {
       return requiredRole.some(r => userRoles.includes(r));
     }
-    
     return userRoles.includes(requiredRole);
   };
 
@@ -27,4 +25,6 @@ export default function Guard({ role, children, fallback = null }: GuardProps) {
   }
 
   return <>{children}</>;
-}
+});
+
+export default Guard;

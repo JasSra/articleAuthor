@@ -9,4 +9,3 @@ export type ValidateIdpRequest = {
     configuration?: IdpConfiguration;
     token?: string | null;
 };
-

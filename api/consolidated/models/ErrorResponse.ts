@@ -8,4 +8,3 @@ export type ErrorResponse = {
     errors?: Array<string> | null;
     traceId?: string | null;
 };
-

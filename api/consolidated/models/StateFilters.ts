@@ -13,4 +13,3 @@ export type StateFilters = {
     qld?: string | null;
     tas?: string | null;
 };
-

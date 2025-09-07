@@ -17,4 +17,3 @@ export type AISuggestion = {
     conditions?: Record<string, any> | null;
     createdAt?: string;
 };
-

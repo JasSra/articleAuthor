@@ -25,4 +25,3 @@ export type Message = {
     read?: boolean;
     contents?: string | null;
 };
-

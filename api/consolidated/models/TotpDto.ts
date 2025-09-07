@@ -9,4 +9,3 @@ export type TotpDto = {
     recoveryCodes?: Array<string> | null;
     createdAt?: string | null;
 };
-

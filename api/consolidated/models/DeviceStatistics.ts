@@ -10,4 +10,3 @@ export type DeviceStatistics = {
     browsers?: Array<KeyValueCount> | null;
     screenResolutions?: Array<KeyValueCount> | null;
 };
-

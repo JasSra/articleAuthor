@@ -14,4 +14,3 @@ export type OperationManifestInfo = {
     inputs?: Array<ArgumentInfo> | null;
     output?: ArgumentInfo;
 };
-

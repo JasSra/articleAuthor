@@ -13,4 +13,3 @@ export type DepositJobRun = {
     processedOn?: string;
     duration?: number;
 };
-

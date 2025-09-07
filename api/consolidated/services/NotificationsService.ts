@@ -11,21 +11,23 @@ import { request as __request } from '../core/request';
 export class NotificationsService {
 
     /**
-     * @param channels
-     * @param tenantId
-     * @param organizationId
-     * @param userId
-     * @param sinceId
+     * @param channels 
+     * @param tenantId 
+     * @param organizationId 
+     * @param userId 
+     * @param sinceId 
+     * @param accessToken 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiNotificationsStream(
-        channels?: string,
-        tenantId?: string,
-        organizationId?: string,
-        userId?: string,
-        sinceId?: string,
-    ): CancelablePromise<any> {
+channels?: string,
+tenantId?: string,
+organizationId?: string,
+userId?: string,
+sinceId?: string,
+accessToken?: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Notifications/stream',
@@ -35,18 +37,19 @@ export class NotificationsService {
                 'organizationId': organizationId,
                 'userId': userId,
                 'sinceId': sinceId,
+                'access_token': accessToken,
             },
         });
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiNotificationsPublish(
-        requestBody?: NotificationEvent,
-    ): CancelablePromise<any> {
+requestBody?: NotificationEvent,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Notifications/publish',
@@ -56,23 +59,25 @@ export class NotificationsService {
     }
 
     /**
-     * @param channels
-     * @param tenantId
-     * @param organizationId
-     * @param userId
-     * @param sinceId
-     * @param take
+     * @param channels 
+     * @param tenantId 
+     * @param organizationId 
+     * @param userId 
+     * @param sinceId 
+     * @param take 
+     * @param accessToken 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiNotificationsHistory(
-        channels?: string,
-        tenantId?: string,
-        organizationId?: string,
-        userId?: string,
-        sinceId?: string,
-        take: number = 100,
-    ): CancelablePromise<any> {
+channels?: string,
+tenantId?: string,
+organizationId?: string,
+userId?: string,
+sinceId?: string,
+take: number = 100,
+accessToken?: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Notifications/history',
@@ -83,6 +88,7 @@ export class NotificationsService {
                 'userId': userId,
                 'sinceId': sinceId,
                 'take': take,
+                'access_token': accessToken,
             },
         });
     }

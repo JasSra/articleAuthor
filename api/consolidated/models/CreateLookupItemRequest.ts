@@ -10,4 +10,3 @@ export type CreateLookupItemRequest = {
     display?: string | null;
     icon?: string | null;
 };
-

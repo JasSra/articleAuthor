@@ -15,13 +15,13 @@ import { request as __request } from '../core/request';
 export class AttestationService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static postApiAttestationVerify(
-        requestBody?: VerifyRequest,
-    ): CancelablePromise<BooleanOperationResult> {
+requestBody?: VerifyRequest,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Attestation/verify',
@@ -31,13 +31,13 @@ export class AttestationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static postApiAttestationVerifyWithPayload(
-        requestBody?: VerifyWithPayloadRequest,
-    ): CancelablePromise<BooleanOperationResult> {
+requestBody?: VerifyWithPayloadRequest,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Attestation/verify-with-payload',
@@ -47,13 +47,13 @@ export class AttestationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringOperationResult OK
      * @throws ApiError
      */
     public static postApiAttestationSignWithPayload(
-        requestBody?: SignWithPayloadRequest,
-    ): CancelablePromise<StringOperationResult> {
+requestBody?: SignWithPayloadRequest,
+): CancelablePromise<StringOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Attestation/sign-with-payload',

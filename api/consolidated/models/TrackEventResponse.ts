@@ -12,4 +12,3 @@ export type TrackEventResponse = {
     message?: string | null;
     metadata?: Record<string, any> | null;
 };
-

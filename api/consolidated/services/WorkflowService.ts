@@ -33,13 +33,13 @@ export class WorkflowService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns FlowOperationResult OK
      * @throws ApiError
      */
     public static getFlowById(
-        id: string,
-    ): CancelablePromise<FlowOperationResult> {
+id: string,
+): CancelablePromise<FlowOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Workflow/{id}',
@@ -54,13 +54,13 @@ export class WorkflowService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns FlowOperationResult OK
      * @throws ApiError
      */
     public static removeWorkflow(
-        id: string,
-    ): CancelablePromise<FlowOperationResult> {
+id: string,
+): CancelablePromise<FlowOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Workflow/remove/{id}',
@@ -75,13 +75,13 @@ export class WorkflowService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns FlowOperationResult Created
      * @throws ApiError
      */
     public static createWorkflow(
-        requestBody?: Flow,
-    ): CancelablePromise<FlowOperationResult> {
+requestBody?: Flow,
+): CancelablePromise<FlowOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Workflow',
@@ -95,15 +95,15 @@ export class WorkflowService {
     }
 
     /**
-     * @param id
-     * @param requestBody
+     * @param id 
+     * @param requestBody 
      * @returns FlowOperationResult OK
      * @throws ApiError
      */
     public static updateWorkflow(
-        id: number,
-        requestBody?: Flow,
-    ): CancelablePromise<FlowOperationResult> {
+id: number,
+requestBody?: Flow,
+): CancelablePromise<FlowOperationResult> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/Workflow/update/{id}',
@@ -131,15 +131,15 @@ export class WorkflowService {
     }
 
     /**
-     * @param componentName
-     * @param requestBody
+     * @param componentName 
+     * @param requestBody 
      * @returns StringListOperationResult OK
      * @throws ApiError
      */
     public static validateComponentConfig(
-        componentName: string,
-        requestBody?: ValidateConfigRequest,
-    ): CancelablePromise<StringListOperationResult> {
+componentName: string,
+requestBody?: ValidateConfigRequest,
+): CancelablePromise<StringListOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Workflow/components/{componentName}/validate-config',
@@ -155,13 +155,13 @@ export class WorkflowService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringListOperationResult OK
      * @throws ApiError
      */
     public static validateWorkflowStep(
-        requestBody?: FlowStep,
-    ): CancelablePromise<StringListOperationResult> {
+requestBody?: FlowStep,
+): CancelablePromise<StringListOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Workflow/validate-step',
@@ -171,13 +171,13 @@ export class WorkflowService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns StringListOperationResult OK
      * @throws ApiError
      */
     public static validateWorkflowDefinition(
-        requestBody?: Flow,
-    ): CancelablePromise<StringListOperationResult> {
+requestBody?: Flow,
+): CancelablePromise<StringListOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Workflow/validate-flow',
@@ -187,15 +187,15 @@ export class WorkflowService {
     }
 
     /**
-     * @param componentName
-     * @param operationId
+     * @param componentName 
+     * @param operationId 
      * @returns OperationManifestInfo OK
      * @throws ApiError
      */
     public static getOperationManifest(
-        componentName: string,
-        operationId: string,
-    ): CancelablePromise<OperationManifestInfo> {
+componentName: string,
+operationId: string,
+): CancelablePromise<OperationManifestInfo> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Workflow/components/{componentName}/operations/{operationId}',
@@ -210,15 +210,15 @@ export class WorkflowService {
     }
 
     /**
-     * @param runId
-     * @param requestBody
+     * @param runId 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiWorkflowRunsFail(
-        runId: string,
-        requestBody?: string,
-    ): CancelablePromise<any> {
+runId: string,
+requestBody?: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Workflow/runs/{runId}/fail',

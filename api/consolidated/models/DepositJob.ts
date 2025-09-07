@@ -24,4 +24,3 @@ export type DepositJob = {
     subType?: string | null;
     runs?: Array<DepositJobRun> | null;
 };
-

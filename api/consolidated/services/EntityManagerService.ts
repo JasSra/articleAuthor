@@ -19,13 +19,13 @@ import { request as __request } from '../core/request';
 export class EntityManagerService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns EntityDefinitionOperationResult OK
      * @throws ApiError
      */
     public static register(
-        requestBody?: EntityDefinition,
-    ): CancelablePromise<EntityDefinitionOperationResult> {
+requestBody?: EntityDefinition,
+): CancelablePromise<EntityDefinitionOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/manager/Register',
@@ -35,13 +35,13 @@ export class EntityManagerService {
     }
 
     /**
-     * @param entityId
+     * @param entityId 
      * @returns StringOperationResult OK
      * @throws ApiError
      */
     public static deleteDefinition(
-        entityId: string,
-    ): CancelablePromise<StringOperationResult> {
+entityId: string,
+): CancelablePromise<StringOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/manager/delete/{entityId}',
@@ -98,15 +98,15 @@ export class EntityManagerService {
     }
 
     /**
-     * @param module
-     * @param entityName
+     * @param module 
+     * @param entityName 
      * @returns EntityDefinitionOperationResult OK
      * @throws ApiError
      */
     public static getDefinitionByCategory(
-        module: string,
-        entityName: string,
-    ): CancelablePromise<EntityDefinitionOperationResult> {
+module: string,
+entityName: string,
+): CancelablePromise<EntityDefinitionOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/manager/get/{module}/name/{entityName}',
@@ -121,13 +121,13 @@ export class EntityManagerService {
     }
 
     /**
-     * @param entityId
+     * @param entityId 
      * @returns EntityDefinitionOperationResult OK
      * @throws ApiError
      */
     public static getDefinitionById(
-        entityId: string,
-    ): CancelablePromise<EntityDefinitionOperationResult> {
+entityId: string,
+): CancelablePromise<EntityDefinitionOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/manager/get/id/{entityId}',
@@ -141,15 +141,15 @@ export class EntityManagerService {
     }
 
     /**
-     * @param module
-     * @param entityName
+     * @param module 
+     * @param entityName 
      * @returns EntityExistsResponseOperationResult OK
      * @throws ApiError
      */
     public static doesDefinitionExist(
-        module: string,
-        entityName: string,
-    ): CancelablePromise<EntityExistsResponseOperationResult> {
+module: string,
+entityName: string,
+): CancelablePromise<EntityExistsResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/manager/exists/{module}/name/{entityName}',
@@ -178,15 +178,15 @@ export class EntityManagerService {
     }
 
     /**
-     * @param fieldType
-     * @param fieldName
+     * @param fieldType 
+     * @param fieldName 
      * @returns FieldDefinitionOperationResult OK
      * @throws ApiError
      */
     public static getFieldByName(
-        fieldType: string,
-        fieldName: string,
-    ): CancelablePromise<FieldDefinitionOperationResult> {
+fieldType: string,
+fieldName: string,
+): CancelablePromise<FieldDefinitionOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/manager/generate/field/{fieldType}/name/{fieldName}',

@@ -27,4 +27,3 @@ export type PaymentSession = {
     paymentMethodIds?: Array<string> | null;
     referenceId?: string | null;
 };
-

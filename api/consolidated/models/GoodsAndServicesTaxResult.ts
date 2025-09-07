@@ -7,4 +7,3 @@ export type GoodsAndServicesTaxResult = {
     effectiveFrom?: string | null;
     effectiveTo?: string | null;
 };
-

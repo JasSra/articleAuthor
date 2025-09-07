@@ -28,4 +28,3 @@ export type BankDetails = {
     modifiedDate?: string | null;
     isPrimary?: boolean;
 };
-

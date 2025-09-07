@@ -1,13 +1,13 @@
 // lib/upload.ts
 import { FileService } from '@/api/consolidated';
-import { withAuthenticatedAPI } from './consolidatedApi';
+import { withAuthenticatedAPI, configureConsolidatedAPI } from './consolidatedApi';
 
 export async function uploadFileViaAPI(jwt: string, file: File): Promise<string> {
   return await withAuthenticatedAPI(jwt, async () => {
     try {
       // Upload file using FileService
-      const formData = { File: file };
-      const result = await FileService.postApiFileUpload(formData);
+  const formData = { File: file };
+  const result = await FileService.postApiFileUploadAny(formData);
       
       if (result.outcome === 'Success' && result.data) {
         // Get the file ID and create public URL
@@ -41,4 +41,18 @@ export async function uploadBase64(jwt: string, base64: string): Promise<string>
 export async function uploadFile(jwt: string, file: File): Promise<string> {
   // Use the new FileService upload method
   return uploadFileViaAPI(jwt, file);
+}
+
+// Anonymous upload for users not signed in (files may expire per backend policy)
+export async function uploadFileAnonymous(file: File): Promise<string> {
+  // Configure API without JWT
+  configureConsolidatedAPI();
+  const formData = { File: file } as any;
+  const result: any = await FileService.postApiFileUploadAny(formData);
+  if (result?.outcome === 'Success' && result.data) {
+    const fileId = result.data.id;
+    const publicUrl = `${process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5229'}/api/file/${fileId}`;
+    return publicUrl;
+  }
+  throw new Error(result?.message || 'Anonymous upload failed');
 }

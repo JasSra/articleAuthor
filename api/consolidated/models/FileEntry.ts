@@ -24,4 +24,3 @@ export type FileEntry = {
     relativePath?: string | null;
     uploadedAt?: string;
 };
-

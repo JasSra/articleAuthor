@@ -11,17 +11,17 @@ import { request as __request } from '../core/request';
 export class PaymentService {
 
     /**
-     * @param provider
-     * @param userId
-     * @param requestBody
+     * @param provider 
+     * @param userId 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiPaymentSession(
-        provider: string,
-        userId?: string,
-        requestBody?: PaymentSession,
-    ): CancelablePromise<any> {
+provider: string,
+userId?: string,
+requestBody?: PaymentSession,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/payment/{provider}/session',
@@ -37,19 +37,19 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
-     * @param sessionId
-     * @param userId
-     * @param requestBody
+     * @param provider 
+     * @param sessionId 
+     * @param userId 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiPaymentSessionCapture(
-        provider: string,
-        sessionId: string,
-        userId?: string,
-        requestBody?: Record<string, string>,
-    ): CancelablePromise<any> {
+provider: string,
+sessionId: string,
+userId?: string,
+requestBody?: Record<string, string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/payment/{provider}/session/{sessionId}/capture',
@@ -66,19 +66,19 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
-     * @param sessionId
-     * @param amount
-     * @param userId
+     * @param provider 
+     * @param sessionId 
+     * @param amount 
+     * @param userId 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiPaymentSessionRefund(
-        provider: string,
-        sessionId: string,
-        amount?: number,
-        userId?: string,
-    ): CancelablePromise<any> {
+provider: string,
+sessionId: string,
+amount?: number,
+userId?: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/payment/{provider}/session/{sessionId}/refund',
@@ -94,13 +94,13 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
+     * @param provider 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiPaymentConfig(
-        provider: string,
-    ): CancelablePromise<any> {
+provider: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/payment/{provider}/config',
@@ -111,15 +111,15 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
-     * @param requestBody
+     * @param provider 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static postApiPaymentConfig(
-        provider: string,
-        requestBody?: Record<string, string>,
-    ): CancelablePromise<any> {
+provider: string,
+requestBody?: Record<string, string>,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/payment/{provider}/config',
@@ -132,15 +132,15 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
-     * @param transactionId
+     * @param provider 
+     * @param transactionId 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiPaymentTransaction(
-        provider: string,
-        transactionId: string,
-    ): CancelablePromise<any> {
+provider: string,
+transactionId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/payment/{provider}/transaction/{transactionId}',
@@ -152,15 +152,15 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
-     * @param sessionId
+     * @param provider 
+     * @param sessionId 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiPaymentSession(
-        provider: string,
-        sessionId: string,
-    ): CancelablePromise<any> {
+provider: string,
+sessionId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/payment/{provider}/session/{sessionId}',
@@ -172,13 +172,13 @@ export class PaymentService {
     }
 
     /**
-     * @param provider
+     * @param provider 
      * @returns any OK
      * @throws ApiError
      */
     public static getApiPaymentConfigFormFields(
-        provider: string,
-    ): CancelablePromise<any> {
+provider: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/payment/{provider}/config/form-fields',

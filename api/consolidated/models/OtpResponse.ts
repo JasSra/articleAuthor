@@ -13,4 +13,3 @@ export type OtpResponse = {
     metadata?: Record<string, any> | null;
     attestation?: string | null;
 };
-

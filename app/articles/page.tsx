@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Article, createApiClient } from '@/lib/apiClient';
 import { handleApiCall } from '@/lib/apiErrorHandler';
 import { useAuth } from '@/lib/auth/StableMSALProvider';
-import { useUserStore, useAppStateActions, usePreferenceActions } from '@/lib/store/userStore';
+import { useUserStore, useAppStateActions, usePreferenceActions, useUserStoreHydrated } from '@/lib/store/userStore';
 import StatusBadge from '@/components/StatusBadge';
 import Guard from '@/components/Guard';
 import ShareArticle from '@/components/ShareArticle';
@@ -42,7 +42,7 @@ export default function ArticlesPage() {
   });
   const filtersRef = useRef(filters);
   
-  // Update ref whenever filters change
+  // Keep latest filters in a ref
   useEffect(() => {
     filtersRef.current = filters;
   }, [filters]);
@@ -50,10 +50,21 @@ export default function ArticlesPage() {
   const [bulkAction, setBulkAction] = useState<string>('');
   
   const { jwt, isAuthenticated } = useAuth();
-  const { preferences } = useUserStore();
+  // Ensure persisted store is hydrated before subscribing
+  const hydrated = useUserStoreHydrated();
+  useEffect(() => {
+    // @ts-ignore zustand persist adds this at runtime
+    if (typeof window !== 'undefined' && useUserStore.persist?.rehydrate) {
+      // @ts-ignore
+      useUserStore.persist.rehydrate();
+    }
+  }, []);
+
+  const preferences = useUserStore((state) => state.preferences);
   const { addRecentArticle, toggleBookmark } = useAppStateActions();
   const { updatePreferences } = usePreferenceActions();
-  const { bookmarkedArticles, recentArticles } = useUserStore((state) => state.appState);
+  const bookmarkedArticles = useUserStore((state) => state.appState.bookmarkedArticles);
+  const recentArticles = useUserStore((state) => state.appState.recentArticles);
 
   // Statistics computed from articles
   const stats = useMemo(() => {
@@ -77,74 +88,75 @@ export default function ArticlesPage() {
     };
   }, [articles]);
 
-  const loadArticles = React.useCallback(async () => {
-    if (!jwt) return;
+ 
 
-    setLoading(true);
-    try {
-      const currentFilters = filtersRef.current;
-      
-      const result = await handleApiCall(
-        async () => {
-          const api = createApiClient({ jwt });
-          return await api.getArticles({
-            ...currentFilters,
-            status: currentFilters.status.length > 0 ? currentFilters.status : undefined,
-          });
-        },
-        {
-          context: 'Load Articles',
-          showToast: false, // Don't show toast for loading articles
-          silentOn: [403] // Silent on access denied
-        }
-      );
-      
-      if (!result) {
-        // If result is null (error occurred), set empty array
-        setArticles([]);
-        return;
-      }
-      
-      // Sort articles based on current sort preferences
-      const sortedArticles = [...result.items].sort((a, b) => {
-        let aValue: string | number;
-        let bValue: string | number;
-        
-        switch (currentFilters.sortBy) {
-          case 'title':
-            aValue = a.title.toLowerCase();
-            bValue = b.title.toLowerCase();
-            break;
-          case 'createdUtc':
-            aValue = new Date(a.createdUtc).getTime();
-            bValue = new Date(b.createdUtc).getTime();
-            break;
-          default:
-            aValue = new Date(a.updatedUtc).getTime();
-            bValue = new Date(b.updatedUtc).getTime();
-        }
-        
-        if (currentFilters.sortOrder === 'asc') {
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-        } else {
-          return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-        }
-      });
-      
-      setArticles(sortedArticles);
-    } catch (error) {
-      console.error('Failed to load articles:', error);
-      setArticles([]); // Set empty array on error
-    } finally {
-      setLoading(false);
-    }
-  }, [jwt]);
+  // useEffect(() => {
+  //    const loadArticles = async () => {
+  //   if (!jwt) return;
 
-  useEffect(() => {
-    if (isAuthenticated && jwt) {
-      loadArticles();
-    }
-  }, [isAuthenticated, jwt, loadArticles, filters.status, filters.q, filters.month_tag, filters.sortBy, filters.sortOrder]);
+  //   setLoading(true);
+  //   try {
+  //     const currentFilters = filtersRef.current;
+      
+  //     const result = await handleApiCall(
+  //       async () => {
+  //         const api = createApiClient({ jwt });
+  //         return await api.getArticles({
+  //           ...currentFilters,
+  //           status: currentFilters.status.length > 0 ? currentFilters.status : undefined,
+  //         });
+  //       },
+  //       {
+  //         context: 'Load Articles',
+  //         showToast: false, // Don't show toast for loading articles
+  //         silentOn: [403] // Silent on access denied
+  //       }
+  //     );
+      
+  //     if (!result) {
+  //       // If result is null (error occurred), set empty array
+  //       setArticles([]);
+  //       return;
+  //     }
+      
+  //     // Sort articles based on current sort preferences
+  //     const sortedArticles = [...result.items].sort((a, b) => {
+  //       let aValue: string | number;
+  //       let bValue: string | number;
+        
+  //       switch (currentFilters.sortBy) {
+  //         case 'title':
+  //           aValue = a.title.toLowerCase();
+  //           bValue = b.title.toLowerCase();
+  //           break;
+  //         case 'createdUtc':
+  //           aValue = new Date(a.createdUtc).getTime();
+  //           bValue = new Date(b.createdUtc).getTime();
+  //           break;
+  //         default:
+  //           aValue = new Date(a.updatedUtc).getTime();
+  //           bValue = new Date(b.updatedUtc).getTime();
+  //       }
+        
+  //       if (currentFilters.sortOrder === 'asc') {
+  //         return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+  //       } else {
+  //         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+  //       }
+  //     });
+      
+  //     setArticles(sortedArticles);
+  //   } catch (error) {
+  //     console.error('Failed to load articles:', error);
+  //     setArticles([]); // Set empty array on error
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  //   if (isAuthenticated && jwt) {
+  //     loadArticles();
+  //   }
+  // }, [isAuthenticated, jwt, filters.status, filters.q, filters.month_tag, filters.sortBy, filters.sortOrder]);
 
   const toggleStatusFilter = (status: string) => {
     setFilters(prev => ({
@@ -219,6 +231,15 @@ export default function ArticlesPage() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
+
+  // Avoid rendering until hydration completes to prevent update-depth loops
+  if (!hydrated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Loading…</div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

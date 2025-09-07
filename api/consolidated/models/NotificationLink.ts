@@ -7,4 +7,3 @@ export type NotificationLink = {
     href?: string | null;
     label?: string | null;
 };
-

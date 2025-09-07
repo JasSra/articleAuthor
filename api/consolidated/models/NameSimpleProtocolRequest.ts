@@ -17,4 +17,3 @@ export type NameSimpleProtocolRequest = {
     minimumScore?: number;
     maxSearchResults?: number;
 };
-

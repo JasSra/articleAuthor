@@ -22,4 +22,3 @@ export type ViewFieldDefinition = {
     isKey?: boolean | null;
     controlDefinition?: FormControlDefinition;
 };
-

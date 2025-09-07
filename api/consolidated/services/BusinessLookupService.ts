@@ -13,13 +13,13 @@ import { request as __request } from '../core/request';
 export class BusinessLookupService {
 
     /**
-     * @param abn
+     * @param abn 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static getApiBusinessLookupSearchAbn(
-        abn: string,
-    ): CancelablePromise<BusinessLookupResult> {
+abn: string,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/BusinessLookup/search/abn/{abn}',
@@ -35,13 +35,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param acn
+     * @param acn 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static getApiBusinessLookupSearchAcn(
-        acn: string,
-    ): CancelablePromise<BusinessLookupResult> {
+acn: string,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/BusinessLookup/search/acn/{acn}',
@@ -57,13 +57,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param asic
+     * @param asic 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static getApiBusinessLookupSearchAsic(
-        asic: string,
-    ): CancelablePromise<BusinessLookupResult> {
+asic: string,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/BusinessLookup/search/asic/{asic}',
@@ -79,13 +79,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static postApiBusinessLookupSearchNameSimple(
-        requestBody?: NameSimpleProtocolRequest,
-    ): CancelablePromise<BusinessLookupResult> {
+requestBody?: NameSimpleProtocolRequest,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/BusinessLookup/search/name/simple',
@@ -100,13 +100,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static postApiBusinessLookupSearchNameAdvanced(
-        requestBody?: NameSearchRequest,
-    ): CancelablePromise<BusinessLookupResult> {
+requestBody?: NameSearchRequest,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/BusinessLookup/search/name/advanced',
@@ -121,13 +121,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param identifier
+     * @param identifier 
      * @returns BusinessLookupResult OK
      * @throws ApiError
      */
     public static getApiBusinessLookupDetails(
-        identifier: string,
-    ): CancelablePromise<BusinessLookupResult> {
+identifier: string,
+): CancelablePromise<BusinessLookupResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/BusinessLookup/details/{identifier}',
@@ -143,13 +143,13 @@ export class BusinessLookupService {
     }
 
     /**
-     * @param identifier
+     * @param identifier 
      * @returns boolean OK
      * @throws ApiError
      */
     public static getApiBusinessLookupIsactive(
-        identifier: string,
-    ): CancelablePromise<boolean> {
+identifier: string,
+): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/BusinessLookup/isactive/{identifier}',

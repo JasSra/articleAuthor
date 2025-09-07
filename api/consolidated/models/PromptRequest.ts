@@ -6,4 +6,3 @@
 export type PromptRequest = {
     prompt?: string | null;
 };
-

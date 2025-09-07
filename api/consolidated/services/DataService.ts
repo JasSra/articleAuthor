@@ -23,13 +23,13 @@ import { request as __request } from '../core/request';
 export class DataService {
 
     /**
-     * @param id
+     * @param id 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static getById(
-        id: string,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/by/{id}',
@@ -46,19 +46,19 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param page
-     * @param size
+     * @param module 
+     * @param entityName 
+     * @param page 
+     * @param size 
      * @returns StringSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getAllEntities(
-        module: string,
-        entityName: string,
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<StringSearchResultOperationResult> {
+module: string,
+entityName: string,
+page: number = 1,
+size: number = 100,
+): CancelablePromise<StringSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/all/{module}/entity/{entityName}/page/{page}/size/{size}',
@@ -78,17 +78,17 @@ export class DataService {
     }
 
     /**
-     * @param definitionId
-     * @param page
-     * @param size
+     * @param definitionId 
+     * @param page 
+     * @param size 
      * @returns StringSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getAllEntitiesById(
-        definitionId: string,
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<StringSearchResultOperationResult> {
+definitionId: string,
+page: number = 1,
+size: number = 100,
+): CancelablePromise<StringSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/all/{definitionId}/page/{page}/size/{size}',
@@ -107,17 +107,17 @@ export class DataService {
     }
 
     /**
-     * @param relationName
-     * @param id
-     * @param toId
+     * @param relationName 
+     * @param id 
+     * @param toId 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static addChildToRelations(
-        relationName: string,
-        id: string,
-        toId: string,
-    ): CancelablePromise<BooleanOperationResult> {
+relationName: string,
+id: string,
+toId: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/add/from/{id}/relation/{relationName}/to/{toId}',
@@ -136,17 +136,17 @@ export class DataService {
     }
 
     /**
-     * @param relationName
-     * @param id
-     * @param toId
+     * @param relationName 
+     * @param id 
+     * @param toId 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static removeChildFromRelation(
-        relationName: string,
-        id: string,
-        toId: string,
-    ): CancelablePromise<BooleanOperationResult> {
+relationName: string,
+id: string,
+toId: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/remove/{id}/relation/{relationName}/to/{toId}',
@@ -165,15 +165,15 @@ export class DataService {
     }
 
     /**
-     * @param relationName
-     * @param id
+     * @param relationName 
+     * @param id 
      * @returns StringListOperationResult OK
      * @throws ApiError
      */
     public static getRelationalValue(
-        relationName: string,
-        id: string,
-    ): CancelablePromise<StringListOperationResult> {
+relationName: string,
+id: string,
+): CancelablePromise<StringListOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/relational/{id}/relation/{relationName}',
@@ -191,13 +191,13 @@ export class DataService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static deleteEntity(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Data/remove/{id}',
@@ -214,15 +214,15 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
+     * @param module 
+     * @param entityName 
      * @returns BooleanListOperationResult OK
      * @throws ApiError
      */
     public static deleteAllEntities(
-        module: string,
-        entityName: string,
-    ): CancelablePromise<BooleanListOperationResult> {
+module: string,
+entityName: string,
+): CancelablePromise<BooleanListOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Data/remove/{module}/entity/{entityName}/all',
@@ -240,17 +240,17 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param requestBody
+     * @param module 
+     * @param entityName 
+     * @param requestBody 
      * @returns any Created
      * @throws ApiError
      */
     public static createEntity(
-        module: string,
-        entityName: string,
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<Record<string, any>> {
+module: string,
+entityName: string,
+requestBody?: Record<string, any>,
+): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/create/{module}/entity/{entityName}',
@@ -270,29 +270,29 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param skipAudit
-     * @param skipUserAudit
-     * @param skipSuggestions
-     * @param skipRelations
-     * @param skipJobs
-     * @param skipVectors
-     * @param skipUniqueChecks
+     * @param module 
+     * @param entityName 
+     * @param skipAudit 
+     * @param skipUserAudit 
+     * @param skipSuggestions 
+     * @param skipRelations 
+     * @param skipJobs 
+     * @param skipVectors 
+     * @param skipUniqueChecks 
      * @returns StringObjectDictionaryListOperationResult Created
      * @throws ApiError
      */
     public static bulkImportEntities(
-        module: string,
-        entityName: string,
-        skipAudit: boolean = false,
-        skipUserAudit: boolean = false,
-        skipSuggestions: boolean = false,
-        skipRelations: boolean = false,
-        skipJobs: boolean = false,
-        skipVectors: boolean = false,
-        skipUniqueChecks: boolean = false,
-    ): CancelablePromise<StringObjectDictionaryListOperationResult> {
+module: string,
+entityName: string,
+skipAudit: boolean = false,
+skipUserAudit: boolean = false,
+skipSuggestions: boolean = false,
+skipRelations: boolean = false,
+skipJobs: boolean = false,
+skipVectors: boolean = false,
+skipUniqueChecks: boolean = false,
+): CancelablePromise<StringObjectDictionaryListOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/import/{module}/entity/{entityName}',
@@ -313,15 +313,15 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param requestBody
+     * @param id 
+     * @param requestBody 
      * @returns BaseCrmEntityOperationResult OK
      * @throws ApiError
      */
     public static updateEntity(
-        id: string,
-        requestBody?: Record<string, any>,
-    ): CancelablePromise<BaseCrmEntityOperationResult> {
+id: string,
+requestBody?: Record<string, any>,
+): CancelablePromise<BaseCrmEntityOperationResult> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/Data/update/{id}',
@@ -340,17 +340,17 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param attributeName
-     * @param requestBody
+     * @param id 
+     * @param attributeName 
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static patchEntityAttribute(
-        id: string,
-        attributeName: string,
-        requestBody?: any,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+attributeName: string,
+requestBody?: any,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/Data/patch/{id}/attribute/{attributeName}',
@@ -370,17 +370,17 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param attributeName
-     * @param amount
+     * @param id 
+     * @param attributeName 
+     * @param amount 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static incrementEntityAttribute(
-        id: string,
-        attributeName: string,
-        amount: number = 1,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+attributeName: string,
+amount: number = 1,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/increment/{id}/attribute/{attributeName}',
@@ -401,17 +401,17 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param attributeName
-     * @param requestBody
+     * @param id 
+     * @param attributeName 
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static jsonArrayAppendEntityAttribute(
-        id: string,
-        attributeName: string,
-        requestBody?: any,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+attributeName: string,
+requestBody?: any,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/jsonarray/append/{id}/attribute/{attributeName}',
@@ -431,15 +431,15 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param attributeName
+     * @param id 
+     * @param attributeName 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static jsonArrayClearEntityAttribute(
-        id: string,
-        attributeName: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+attributeName: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/jsonarray/clear/{id}/attribute/{attributeName}',
@@ -457,13 +457,13 @@ export class DataService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns QueryResponseOperationResult OK
      * @throws ApiError
      */
     public static postApiDataQuery(
-        requestBody?: QueryRequest,
-    ): CancelablePromise<QueryResponseOperationResult> {
+requestBody?: QueryRequest,
+): CancelablePromise<QueryResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/query',
@@ -479,19 +479,19 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param page
-     * @param size
+     * @param module 
+     * @param entityName 
+     * @param page 
+     * @param size 
      * @returns ReferenceLookupSearchResultOperationResult OK
      * @throws ApiError
      */
     public static getAllDisplay(
-        module: string,
-        entityName: string,
-        page: number = 1,
-        size: number = 100,
-    ): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
+module: string,
+entityName: string,
+page: number = 1,
+size: number = 100,
+): CancelablePromise<ReferenceLookupSearchResultOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/display/{module}/entity/{entityName}/page/{page}/size/{size}',
@@ -511,13 +511,13 @@ export class DataService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns StringStringListDictionaryOperationResult OK
      * @throws ApiError
      */
     public static getNextStates(
-        id: string,
-    ): CancelablePromise<StringStringListDictionaryOperationResult> {
+id: string,
+): CancelablePromise<StringStringListDictionaryOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/nextstates/{id}',
@@ -534,17 +534,17 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param fieldId
-     * @param newState
-     * @returns void
+     * @param id 
+     * @param fieldId 
+     * @param newState 
+     * @returns void 
      * @throws ApiError
      */
     public static moveToState(
-        id: string,
-        fieldId: string,
-        newState: string,
-    ): CancelablePromise<void> {
+id: string,
+fieldId: string,
+newState: string,
+): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Data/movetostate/{id}/field/{fieldId}/newstate/{newState}',
@@ -564,21 +564,21 @@ export class DataService {
     }
 
     /**
-     * @param id
-     * @param from
-     * @param to
-     * @param count
-     * @param isAscending
+     * @param id 
+     * @param from 
+     * @param to 
+     * @param count 
+     * @param isAscending 
      * @returns StringStringDictionaryListOperationResult OK
      * @throws ApiError
      */
     public static getAuditEvents(
-        id: string,
-        from?: string,
-        to?: string,
-        count: number = 1000,
-        isAscending: boolean = true,
-    ): CancelablePromise<StringStringDictionaryListOperationResult> {
+id: string,
+from?: string,
+to?: string,
+count: number = 1000,
+isAscending: boolean = true,
+): CancelablePromise<StringStringDictionaryListOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/audit/{id}',
@@ -601,19 +601,19 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param fieldId
-     * @param prefix
+     * @param module 
+     * @param entityName 
+     * @param fieldId 
+     * @param prefix 
      * @returns string OK
      * @throws ApiError
      */
     public static getSuggestions(
-        module: string,
-        entityName: string,
-        fieldId: string,
-        prefix?: string,
-    ): CancelablePromise<Array<string>> {
+module: string,
+entityName: string,
+fieldId: string,
+prefix?: string,
+): CancelablePromise<Array<string>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/suggestions/{module}/entity/{entityName}/field/{fieldId}',
@@ -629,19 +629,19 @@ export class DataService {
     }
 
     /**
-     * @param module
-     * @param entityName
-     * @param fieldId
-     * @param _function
+     * @param module 
+     * @param entityName 
+     * @param fieldId 
+     * @param _function 
      * @returns StringOperationResult OK
      * @throws ApiError
      */
     public static getHint(
-        module: string,
-        entityName: string,
-        fieldId: string,
-        _function?: string,
-    ): CancelablePromise<StringOperationResult> {
+module: string,
+entityName: string,
+fieldId: string,
+_function?: string,
+): CancelablePromise<StringOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Data/hint/{module}/entity/{entityName}/field/{fieldId}',

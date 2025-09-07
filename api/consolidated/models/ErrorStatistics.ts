@@ -10,4 +10,3 @@ export type ErrorStatistics = {
     errorEventTypes?: Array<KeyValueCount> | null;
     errorCodes?: Array<KeyValueCount> | null;
 };
-

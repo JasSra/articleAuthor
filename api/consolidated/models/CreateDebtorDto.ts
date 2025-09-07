@@ -11,4 +11,3 @@ export type CreateDebtorDto = {
     attestationToken?: string | null;
     isMock?: boolean;
 };
-

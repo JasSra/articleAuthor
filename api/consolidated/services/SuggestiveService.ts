@@ -11,16 +11,32 @@ import { request as __request } from '../core/request';
 export class SuggestiveService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns string OK
      * @throws ApiError
      */
     public static makeSuggestion(
-        requestBody?: PromptRequest,
-    ): CancelablePromise<string> {
+requestBody?: PromptRequest,
+): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/suggest/query',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns string OK
+     * @throws ApiError
+     */
+    public static autoSuggest(
+requestBody?: PromptRequest,
+): CancelablePromise<Array<string>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/suggest/auto-suggest',
             body: requestBody,
             mediaType: 'application/json',
         });

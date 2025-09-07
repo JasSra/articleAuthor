@@ -23,5 +23,5 @@ export type NotificationEvent = {
     dedupeKey?: string | null;
     expiresAt?: string | null;
     actions?: Array<NotificationAction> | null;
+    data?: Record<string, any> | null;
 };
-

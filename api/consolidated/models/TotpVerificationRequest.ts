@@ -6,4 +6,3 @@
 export type TotpVerificationRequest = {
     code: string;
 };
-

@@ -10,4 +10,3 @@ export type FormResponse = {
     status?: string | null;
     message?: string | null;
 };
-

@@ -9,4 +9,3 @@ export type RemittanceRangeItem = {
     percentage?: number;
     fixedAmount?: number;
 };
-

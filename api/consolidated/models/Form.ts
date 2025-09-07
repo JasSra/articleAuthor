@@ -45,4 +45,3 @@ export type Form = {
     formImagePosition?: string | null;
     formEntries?: Array<string> | null;
 };
-

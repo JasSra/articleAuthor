@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -8,27 +9,42 @@ export async function GET(req: NextRequest) {
   if (!url) {
     return new NextResponse('Missing url', { status: 400 });
   }
+  // Basic scheme validation (allow http/https only)
   try {
-    const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'articleAuthor/1.0 (+https://example.com)'
-      },
-      // Avoid caching issues
-      cache: 'no-store',
-    });
-    if (!res.ok) {
-      return new NextResponse(`Upstream error: ${res.status}`, { status: 502 });
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      return new NextResponse('Unsupported protocol', { status: 400 });
     }
-    const contentType = res.headers.get('content-type') || 'application/octet-stream';
-    const arrayBuffer = await res.arrayBuffer();
-    return new NextResponse(Buffer.from(arrayBuffer), {
+  } catch {
+    return new NextResponse('Invalid url', { status: 400 });
+  }
+
+  try {
+    const upstream = await fetch(url, {
+      headers: {
+        'User-Agent': 'articleAuthor/1.0',
+        'Accept': '*/*',
+      },
+      cache: 'no-store',
+      redirect: 'follow',
+    });
+
+    if (!upstream.ok || !upstream.body) {
+      return new NextResponse(`Upstream error: ${upstream.status}`, { status: 502 });
+    }
+
+    const contentType = upstream.headers.get('content-type') || 'application/octet-stream';
+    // Stream body directly without buffering to handle large files
+    return new NextResponse(upstream.body as any, {
       status: 200,
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (e: any) {
-    return new NextResponse('Failed to fetch image', { status: 500 });
+    console.error('Proxy fetch error:', e);
+    return new NextResponse('Failed to fetch resource', { status: 500 });
   }
 }

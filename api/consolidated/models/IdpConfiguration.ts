@@ -31,4 +31,3 @@ export type IdpConfiguration = {
     roleMappings?: Record<string, string> | null;
     accessibleAreas?: Record<string, Array<string>> | null;
 };
-

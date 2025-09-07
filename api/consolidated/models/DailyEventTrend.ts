@@ -8,4 +8,3 @@ export type DailyEventTrend = {
     eventCount?: number;
     changeFromPrevious?: number;
 };
-

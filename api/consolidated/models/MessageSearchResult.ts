@@ -14,4 +14,3 @@ export type MessageSearchResult = {
     queryUsed?: string | null;
     indexUsed?: string | null;
 };
-

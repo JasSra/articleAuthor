@@ -7,4 +7,3 @@ export type ListOfConfigKeysDto = {
     encryptedKeys?: Array<string> | null;
     unencryptedKeys?: Array<string> | null;
 };
-

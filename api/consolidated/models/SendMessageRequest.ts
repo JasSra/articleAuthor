@@ -7,4 +7,3 @@ export type SendMessageRequest = {
     userId?: string | null;
     messageId?: string | null;
 };
-

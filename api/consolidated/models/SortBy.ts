@@ -8,4 +8,3 @@ export type SortBy = {
     direction?: string | null;
     alias?: string | null;
 };
-

@@ -11,4 +11,3 @@ export type UserActivitySummary = {
     firstEventTime?: string;
     lastEventTime?: string;
 };
-

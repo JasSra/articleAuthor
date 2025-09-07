@@ -11,13 +11,13 @@ import { request as __request } from '../core/request';
 export class ConfigurationService {
 
     /**
-     * @param key
+     * @param key 
      * @returns string OK
      * @throws ApiError
      */
     public static getConfigByKey(
-        key: string,
-    ): CancelablePromise<string> {
+key: string,
+): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/configuration/{key}',
@@ -31,17 +31,17 @@ export class ConfigurationService {
     }
 
     /**
-     * @param key
-     * @param encrypted
-     * @param requestBody
+     * @param key 
+     * @param encrypted 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static setConfigByKey(
-        key: string,
-        encrypted: boolean = false,
-        requestBody?: string,
-    ): CancelablePromise<any> {
+key: string,
+encrypted: boolean = false,
+requestBody?: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/configuration/{key}',
@@ -60,13 +60,13 @@ export class ConfigurationService {
     }
 
     /**
-     * @param key
-     * @returns void
+     * @param key 
+     * @returns void 
      * @throws ApiError
      */
     public static removeConfigByKey(
-        key: string,
-    ): CancelablePromise<void> {
+key: string,
+): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/configuration/{key}',
@@ -80,13 +80,13 @@ export class ConfigurationService {
     }
 
     /**
-     * @param key
+     * @param key 
      * @returns boolean OK
      * @throws ApiError
      */
     public static configKeyExists(
-        key: string,
-    ): CancelablePromise<boolean> {
+key: string,
+): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/configuration/exists/{key}',

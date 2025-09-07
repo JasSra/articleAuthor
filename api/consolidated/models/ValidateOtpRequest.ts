@@ -15,4 +15,3 @@ export type ValidateOtpRequest = {
     attestPayload?: Record<string, any> | null;
     attestFields?: Array<string> | null;
 };
-

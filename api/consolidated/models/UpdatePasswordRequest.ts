@@ -7,4 +7,3 @@ export type UpdatePasswordRequest = {
     oldPassword?: string | null;
     newPassword?: string | null;
 };
-

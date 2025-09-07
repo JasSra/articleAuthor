@@ -33,4 +33,3 @@ export type BusinessApplication = {
     finalDecisionReason?: string | null;
     remittanceSchedule?: string | null;
 };
-

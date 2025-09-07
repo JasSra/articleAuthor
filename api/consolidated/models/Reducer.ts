@@ -10,4 +10,3 @@ export type Reducer = {
     percentile?: number | null;
     size?: number | null;
 };
-

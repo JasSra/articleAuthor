@@ -12,4 +12,3 @@ export type NameSearchFilters = {
     stateCode?: StateFilters;
     activeABNsOnly?: string | null;
 };
-

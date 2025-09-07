@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Article, createApiClient } from '@/lib/apiClient';
 import { useAuth } from '@/lib/auth/StableMSALProvider';

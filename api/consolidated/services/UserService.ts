@@ -22,18 +22,29 @@ import { request as __request } from '../core/request';
 export class UserService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns UserResponseOperationResult OK
      * @throws ApiError
      */
     public static signUp(
-        requestBody?: ExternalRegistrationRequest,
-    ): CancelablePromise<UserResponseOperationResult> {
+requestBody?: ExternalRegistrationRequest,
+): CancelablePromise<UserResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/user/register/external',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getApiUserProfile(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/user/profile',
         });
     }
 
@@ -53,13 +64,13 @@ export class UserService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static updateUserPassword(
-        requestBody?: UpdatePasswordRequest,
-    ): CancelablePromise<BooleanOperationResult> {
+requestBody?: UpdatePasswordRequest,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/user/password/update',
@@ -80,13 +91,13 @@ export class UserService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns TotpVerificationResponseOperationResult OK
      * @throws ApiError
      */
     public static verifyTotp(
-        requestBody?: TotpVerificationRequest,
-    ): CancelablePromise<TotpVerificationResponseOperationResult> {
+requestBody?: TotpVerificationRequest,
+): CancelablePromise<TotpVerificationResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/user/totp/verify',
@@ -96,13 +107,13 @@ export class UserService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static disableTotp(
-        requestBody?: TotpDisableRequest,
-    ): CancelablePromise<BooleanOperationResult> {
+requestBody?: TotpDisableRequest,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/user/totp/disable',
@@ -123,13 +134,13 @@ export class UserService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns PasskeyVerificationResponseOperationResult OK
      * @throws ApiError
      */
     public static verifyPasskey(
-        requestBody?: PasskeyVerificationRequest,
-    ): CancelablePromise<PasskeyVerificationResponseOperationResult> {
+requestBody?: PasskeyVerificationRequest,
+): CancelablePromise<PasskeyVerificationResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/user/passkey/verify',

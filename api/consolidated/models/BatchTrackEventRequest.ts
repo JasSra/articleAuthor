@@ -10,4 +10,3 @@ export type BatchTrackEventRequest = {
     events: Array<AIEventRequest>;
     metadata?: Record<string, any> | null;
 };
-

@@ -27,4 +27,3 @@ export type FormDefinition = {
     sections?: Array<FormSectionDefinition> | null;
     layout?: string | null;
 };
-

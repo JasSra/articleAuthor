@@ -11,19 +11,19 @@ import { request as __request } from '../core/request';
 export class RelationsService {
 
     /**
-     * @param id
-     * @param targetModule
-     * @param targetEntity
-     * @param relationName
+     * @param id 
+     * @param targetModule 
+     * @param targetEntity 
+     * @param relationName 
      * @returns StringListOperationResult OK
      * @throws ApiError
      */
     public static getInboundRelated(
-        id: string,
-        targetModule: string,
-        targetEntity: string,
-        relationName?: string,
-    ): CancelablePromise<StringListOperationResult> {
+id: string,
+targetModule: string,
+targetEntity: string,
+relationName?: string,
+): CancelablePromise<StringListOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Relations/inbound/{id}/target/{targetModule}/entity/{targetEntity}',

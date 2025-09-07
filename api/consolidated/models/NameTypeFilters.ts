@@ -8,4 +8,3 @@ export type NameTypeFilters = {
     legalName?: string | null;
     businessName?: string | null;
 };
-

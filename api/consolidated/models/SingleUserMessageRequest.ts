@@ -8,4 +8,3 @@ export type SingleUserMessageRequest = {
     from?: string | null;
     userId?: string | null;
 };
-

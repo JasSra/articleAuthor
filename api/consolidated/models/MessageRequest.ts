@@ -8,4 +8,3 @@ export type MessageRequest = {
     from?: string | null;
     userIds?: Array<string> | null;
 };
-

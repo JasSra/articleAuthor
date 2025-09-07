@@ -13,13 +13,13 @@ import { request as __request } from '../core/request';
 export class QueueService {
 
     /**
-     * @param queueName
+     * @param queueName 
      * @returns number OK
      * @throws ApiError
      */
     public static getQueueStatus(
-        queueName: string,
-    ): CancelablePromise<number> {
+queueName: string,
+): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/queue/{queueName}/status',
@@ -33,13 +33,13 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
+     * @param queueName 
      * @returns DepositJob OK
      * @throws ApiError
      */
     public static deQueueJob(
-        queueName: string,
-    ): CancelablePromise<DepositJob> {
+queueName: string,
+): CancelablePromise<DepositJob> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/queue/{queueName}/deQueueJob',
@@ -53,15 +53,15 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
-     * @param requestBody
+     * @param queueName 
+     * @param requestBody 
      * @returns any Created
      * @throws ApiError
      */
     public static queueJob(
-        queueName: string,
-        requestBody?: DepositJob,
-    ): CancelablePromise<any> {
+queueName: string,
+requestBody?: DepositJob,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/queue/{queueName}/job',
@@ -74,13 +74,13 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
+     * @param queueName 
      * @returns any OK
      * @throws ApiError
      */
     public static emptyQueue(
-        queueName: string,
-    ): CancelablePromise<any> {
+queueName: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/queue/{queueName}',
@@ -102,15 +102,15 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
-     * @param requestBody
+     * @param queueName 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static moveToComplete(
-        queueName: string,
-        requestBody?: DepositJobRun,
-    ): CancelablePromise<any> {
+queueName: string,
+requestBody?: DepositJobRun,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/queue/{queueName}/job/complete',
@@ -123,15 +123,15 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
-     * @param requestBody
+     * @param queueName 
+     * @param requestBody 
      * @returns any OK
      * @throws ApiError
      */
     public static moveToFailed(
-        queueName: string,
-        requestBody?: DepositJobRun,
-    ): CancelablePromise<any> {
+queueName: string,
+requestBody?: DepositJobRun,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/queue/{queueName}/job/fail',
@@ -144,15 +144,15 @@ export class QueueService {
     }
 
     /**
-     * @param queueName
-     * @param count
+     * @param queueName 
+     * @param count 
      * @returns DepositJobRun OK
      * @throws ApiError
      */
     public static peekLatestJobs(
-        queueName: string,
-        count: number,
-    ): CancelablePromise<Array<DepositJobRun>> {
+queueName: string,
+count: number,
+): CancelablePromise<Array<DepositJobRun>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/queue/{queueName}/peek/{count}',

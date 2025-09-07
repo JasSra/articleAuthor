@@ -8,4 +8,3 @@ export type EntityValidationError = {
     errors?: Array<string> | null;
     readonly isEmpty?: boolean;
 };
-

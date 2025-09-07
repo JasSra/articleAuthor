@@ -14,4 +14,3 @@ export type RelationshipIssue = {
     isFixed?: boolean;
     fixDetails?: string | null;
 };
-

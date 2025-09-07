@@ -25,4 +25,3 @@ export type Lookup = {
     value?: string | null;
     order?: number;
 };
-

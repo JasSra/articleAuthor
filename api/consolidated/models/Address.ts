@@ -23,4 +23,3 @@ export type Address = {
     country?: string | null;
     isPrimary?: boolean;
 };
-

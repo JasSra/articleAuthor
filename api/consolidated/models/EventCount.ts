@@ -8,4 +8,3 @@ export type EventCount = {
     count?: number;
     percentage?: number;
 };
-

@@ -33,4 +33,3 @@ export type EventStatistics = {
     errorStatistics?: ErrorStatistics;
     customMetrics?: Record<string, any> | null;
 };
-

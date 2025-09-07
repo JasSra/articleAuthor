@@ -12,4 +12,3 @@ export type NameSearchRequest = {
     minimumScore?: number;
     maxSearchResults?: number;
 };
-

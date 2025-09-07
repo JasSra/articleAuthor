@@ -11,4 +11,3 @@ export type QueryResponse = {
     indexUsed?: string | null;
     queryUsed?: string | null;
 };
-

@@ -12,4 +12,3 @@ export type LookupValue = {
     value?: string | null;
     order?: number;
 };
-

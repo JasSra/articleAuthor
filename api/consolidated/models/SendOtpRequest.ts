@@ -13,4 +13,3 @@ export type SendOtpRequest = {
     languageCode?: string | null;
     templateVariables?: Record<string, string> | null;
 };
-

@@ -11,4 +11,3 @@ export type PredictionContext = {
     recentActions?: Array<string> | null;
     sessionMetadata?: Record<string, any> | null;
 };
-

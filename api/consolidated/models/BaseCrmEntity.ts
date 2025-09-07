@@ -18,4 +18,3 @@ export type BaseCrmEntity = {
     relatedEntities?: Record<string, Array<string>> | null;
     state?: Record<string, string> | null;
 };
-

@@ -42,9 +42,11 @@ export default function NotificationBell() {
     }
   };
 
-  const formatTimeAgo = (timestamp: string) => {
+  const formatTimeAgo = (timestamp?: string) => {
+    if (!timestamp) return 'Just now';
     const now = new Date();
     const time = new Date(timestamp);
+    if (isNaN(time.getTime())) return 'Just now';
     const diffMs = now.getTime() - time.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
@@ -137,17 +139,17 @@ export default function NotificationBell() {
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <h4 className={`text-sm font-medium ${
                               !notification.read ? 'text-gray-900' : 'text-gray-700'
                             }`}>
-                              {notification.title}
+          {notification.title || 'Notification'}
                             </h4>
                             <p className={`text-sm mt-1 ${
                               !notification.read ? 'text-gray-800' : 'text-gray-600'
                             }`}>
-                              {notification.message}
+          {notification.message || ''}
                             </p>
                           </div>
                           

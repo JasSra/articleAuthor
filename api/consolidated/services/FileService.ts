@@ -11,15 +11,15 @@ import { request as __request } from '../core/request';
 export class FileService {
 
     /**
-     * @param formData
+     * @param formData 
      * @returns FileEntryOperationResult Created
      * @throws ApiError
      */
     public static postApiFileUpload(
-        formData?: {
-            File?: Blob;
-        },
-    ): CancelablePromise<FileEntryOperationResult> {
+formData?: {
+File?: Blob;
+},
+): CancelablePromise<FileEntryOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/file/upload',
@@ -32,13 +32,34 @@ export class FileService {
     }
 
     /**
-     * @param id
+     * @param formData 
+     * @returns FileEntryOperationResult Created
+     * @throws ApiError
+     */
+    public static postApiFileUploadAny(
+formData?: {
+File?: Blob;
+},
+): CancelablePromise<FileEntryOperationResult> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/file/upload-any',
+            formData: formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+
+    /**
+     * @param id 
      * @returns binary OK
      * @throws ApiError
      */
     public static getApiFile(
-        id: string,
-    ): CancelablePromise<Blob> {
+id: string,
+): CancelablePromise<Blob> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/file/{id}',

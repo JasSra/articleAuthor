@@ -8,4 +8,3 @@ export type TransitionAction = {
     name?: string | null;
     order?: number | null;
 };
-

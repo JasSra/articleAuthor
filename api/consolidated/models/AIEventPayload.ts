@@ -27,4 +27,3 @@ export type AIEventPayload = {
     recentActions?: Array<string> | null;
     serverProcessedAt?: number | null;
 };
-

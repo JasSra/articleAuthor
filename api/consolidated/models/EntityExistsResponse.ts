@@ -8,4 +8,3 @@ export type EntityExistsResponse = {
     message?: string | null;
     id?: string | null;
 };
-

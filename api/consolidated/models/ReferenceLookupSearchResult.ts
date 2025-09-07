@@ -14,4 +14,3 @@ export type ReferenceLookupSearchResult = {
     queryUsed?: string | null;
     indexUsed?: string | null;
 };
-

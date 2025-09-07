@@ -14,13 +14,13 @@ import { request as __request } from '../core/request';
 export class LookupService {
 
     /**
-     * @param groupName
+     * @param groupName 
      * @returns Lookup OK
      * @throws ApiError
      */
     public static lookupGetByGroup(
-        groupName: string,
-    ): CancelablePromise<Array<Lookup>> {
+groupName: string,
+): CancelablePromise<Array<Lookup>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Lookup/group/{groupName}',
@@ -31,13 +31,13 @@ export class LookupService {
     }
 
     /**
-     * @param groupName
+     * @param groupName 
      * @returns any OK
      * @throws ApiError
      */
     public static lookupDeleteGroup(
-        groupName: string,
-    ): CancelablePromise<any> {
+groupName: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Lookup/group/{groupName}',
@@ -48,13 +48,13 @@ export class LookupService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns Lookup OK
      * @throws ApiError
      */
     public static lookupAddLookup(
-        requestBody?: AddLookupRequest,
-    ): CancelablePromise<Lookup> {
+requestBody?: AddLookupRequest,
+): CancelablePromise<Lookup> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Lookup',
@@ -64,15 +64,15 @@ export class LookupService {
     }
 
     /**
-     * @param groupName
-     * @param requestBody
+     * @param groupName 
+     * @param requestBody 
      * @returns Lookup OK
      * @throws ApiError
      */
     public static lookupCreateLookupItem(
-        groupName: string,
-        requestBody?: CreateLookupItemRequest,
-    ): CancelablePromise<Lookup> {
+groupName: string,
+requestBody?: CreateLookupItemRequest,
+): CancelablePromise<Lookup> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Lookup/group/{groupName}/item',
@@ -85,15 +85,15 @@ export class LookupService {
     }
 
     /**
-     * @param groupName
-     * @param requestBody
+     * @param groupName 
+     * @param requestBody 
      * @returns Lookup OK
      * @throws ApiError
      */
     public static lookupAddLookupsToGroup(
-        groupName: string,
-        requestBody?: AddLookupsToGroupRequest,
-    ): CancelablePromise<Array<Lookup>> {
+groupName: string,
+requestBody?: AddLookupsToGroupRequest,
+): CancelablePromise<Array<Lookup>> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Lookup/group/{groupName}/bulk',
@@ -106,13 +106,13 @@ export class LookupService {
     }
 
     /**
-     * @param lookupId
+     * @param lookupId 
      * @returns any OK
      * @throws ApiError
      */
     public static lookupRemoveLookup(
-        lookupId: string,
-    ): CancelablePromise<any> {
+lookupId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Lookup/{lookupId}',
@@ -123,13 +123,13 @@ export class LookupService {
     }
 
     /**
-     * @param groupName
+     * @param groupName 
      * @returns any OK
      * @throws ApiError
      */
     public static lookupClearGroup(
-        groupName: string,
-    ): CancelablePromise<any> {
+groupName: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Lookup/group/{groupName}/clear',

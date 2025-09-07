@@ -7,4 +7,3 @@ export type GroupUpdateRequest = {
     userId?: string | null;
     groupId?: string | null;
 };
-

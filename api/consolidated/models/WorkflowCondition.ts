@@ -9,4 +9,3 @@ export type WorkflowCondition = {
     condition?: Condition;
     continueOnError?: boolean;
 };
-

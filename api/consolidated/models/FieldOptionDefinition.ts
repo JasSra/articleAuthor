@@ -8,4 +8,3 @@ export type FieldOptionDefinition = {
     label?: string | null;
     icon?: string | null;
 };
-

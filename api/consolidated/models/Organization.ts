@@ -40,4 +40,3 @@ export type Organization = {
     finalDecisionBy?: string | null;
     finalDecisionReason?: string | null;
 };
-

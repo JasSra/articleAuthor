@@ -28,4 +28,3 @@ export type SiteContent = {
     icon?: string | null;
     placeholder?: string | null;
 };
-

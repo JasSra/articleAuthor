@@ -11,4 +11,3 @@ export type FormSectionDefinition = {
     fields?: Array<FormFieldDefinition> | null;
     icon?: string | null;
 };
-

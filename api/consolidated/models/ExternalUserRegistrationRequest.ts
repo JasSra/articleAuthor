@@ -11,4 +11,3 @@ export type ExternalUserRegistrationRequest = {
     givenName?: string | null;
     lastName?: string | null;
 };
-

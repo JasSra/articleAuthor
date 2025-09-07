@@ -8,4 +8,3 @@ export type MainTradingNameResult = {
     effectiveFrom?: string | null;
     effectiveTo?: string | null;
 };
-

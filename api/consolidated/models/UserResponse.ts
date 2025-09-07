@@ -16,4 +16,3 @@ export type UserResponse = {
     lastName?: string | null;
     meta?: Record<string, string> | null;
 };
-

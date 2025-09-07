@@ -9,4 +9,3 @@ export type FormControlDefinition = {
     canHandleFieldTypes?: Array<string> | null;
     package?: string | null;
 };
-

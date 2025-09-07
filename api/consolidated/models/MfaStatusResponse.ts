@@ -11,4 +11,3 @@ export type MfaStatusResponse = {
     mfaMethods?: Array<string> | null;
     recoveryCodesRemaining?: number;
 };
-

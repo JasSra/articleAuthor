@@ -12,4 +12,3 @@ export type ComponentInfo = {
     operations?: Array<string> | null;
     configuration?: Array<ComponentRequirementInfo> | null;
 };
-

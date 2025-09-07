@@ -13,4 +13,3 @@ export type EnterpriseIdentity = {
     extraClaims?: Record<string, any> | null;
     type?: string | null;
 };
-

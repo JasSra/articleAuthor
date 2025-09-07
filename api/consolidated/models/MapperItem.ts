@@ -17,4 +17,3 @@ export type MapperItem = {
     category?: string | null;
     categoryWeight?: number;
 };
-

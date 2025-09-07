@@ -17,9 +17,11 @@ export interface UserMessage {
 
 export interface AppNotification {
   id: string;
-  type: 'info' | 'success' | 'warning' | 'error';
+  // Extend supported types to match what the UI handles
+  type: 'info' | 'success' | 'warning' | 'error' | 'article-event' | 'collaboration' | string;
   title: string;
   message: string;
+  // ISO 8601 string timestamp used by UI
   timestamp: string;
   read: boolean;
   actions?: NotificationAction[];
@@ -40,6 +42,8 @@ export class NotificationService {
   private eventSource: EventSource | null = null;
   private reconnectAttempts = 0;
   private readonly MAX_RECONNECT_ATTEMPTS = 5;
+  private streamAbort: AbortController | null = null;
+  private streaming = false;
 
   constructor(jwt: string) {
     this.jwt = jwt;
@@ -59,39 +63,84 @@ export class NotificationService {
       if (options.organizationId) params.append('organizationId', options.organizationId);
       if (options.userId) params.append('userId', options.userId);
 
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5229';
-      const url = `${baseUrl}/api/Notifications/stream?${params.toString()}`;
+      // If already streaming, stop previous before starting anew
+      if (this.streaming) {
+        this.stopNotificationStream();
+      }
 
-      this.eventSource = new EventSource(url);
+      // Use Next.js API proxy to include Authorization header
+      const proxyUrl = `/api/notifications/stream?${params.toString()}`;
 
-      this.eventSource.onopen = () => {
-        console.log('Notification stream connected');
-        this.reconnectAttempts = 0;
-      };
-
-      this.eventSource.onmessage = (event) => {
+      // Fetch-based SSE polyfill to add headers
+      const controller = new AbortController();
+      this.streamAbort = controller;
+      this.streaming = true;
+      const connect = async () => {
         try {
-          const notification = JSON.parse(event.data) as AppNotification;
-          this.handleIncomingNotification(notification);
-        } catch (error) {
-          console.error('Failed to parse notification:', error);
+          const res = await fetch(proxyUrl, {
+            method: 'GET',
+            headers: {
+              Accept: 'text/event-stream',
+              Authorization: `Bearer ${this.jwt}`,
+              'Cache-Control': 'no-cache',
+            },
+            signal: controller.signal,
+          });
+          if (!res.ok || !res.body) {
+            throw new Error(`SSE proxy error: ${res.status}`);
+          }
+          console.log('Notification stream connected');
+          this.reconnectAttempts = 0;
+
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder('utf-8');
+          let buffer = '';
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            let idx;
+            while ((idx = buffer.indexOf('\n\n')) !== -1) {
+              const chunk = buffer.slice(0, idx);
+              buffer = buffer.slice(idx + 2);
+              const lines = chunk.split('\n');
+              for (const line of lines) {
+                if (line.startsWith('data:')) {
+                  const data = line.slice(5).trim();
+                  if (!data) continue;
+                  try {
+                    const notification = JSON.parse(data) as AppNotification;
+                    this.handleIncomingNotification(notification);
+                  } catch (err) {
+                    console.error('Failed to parse notification:', err);
+                  }
+                }
+              }
+            }
+          }
+          // If stream ends naturally, trigger reconnect
+          if (this.streaming) this.handleStreamError();
+        } catch (err) {
+          if ((err as any)?.name === 'AbortError') return;
+          console.warn('Notification stream error', err);
+          if (this.streaming) this.handleStreamError();
         }
       };
 
-      this.eventSource.onerror = () => {
-        console.warn('Notification stream error');
-        this.handleStreamError();
-      };
+      // Start connection (no native EventSource to allow headers)
+      connect();
     } catch (error) {
       console.error('Failed to start notification stream:', error);
     }
   }
 
   stopNotificationStream(): void {
-    if (this.eventSource) {
-      this.eventSource.close();
-      this.eventSource = null;
+    if (this.streamAbort) {
+      try { this.streamAbort.abort(); } catch {}
     }
+    this.streamAbort = null;
+    this.streaming = false;
   }
 
   // Subscribe to notification events
@@ -154,15 +203,43 @@ export class NotificationService {
       }
     );
 
-    return result || [];
+    const items = Array.isArray(result) ? result : [];
+    return items.map(this.normalizeNotification);
   }
 
+  private normalizeNotification = (raw: any): AppNotification => {
+    const id = raw?.id || `notif-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const type = raw?.type || raw?.level || 'info';
+    const title = raw?.title || raw?.summary || '';
+    const message = raw?.message || raw?.detail || '';
+    const read = Boolean(raw?.read || raw?.isRead);
+    // Prefer explicit timestamp fields; fall back to numeric ts; ensure ISO string
+    const tsSource = raw?.timestamp || raw?.time || raw?.createdUtc || raw?.createdAt || raw?.ts || Date.now();
+    const tsDate = typeof tsSource === 'number' ? new Date(tsSource) : new Date(tsSource);
+    const timestamp = isNaN(tsDate.getTime()) ? new Date().toISOString() : tsDate.toISOString();
+
+    const normalized: AppNotification = {
+      id,
+      type,
+      title,
+      message,
+      timestamp,
+      read,
+      actions: raw?.actions,
+      metadata: raw?.metadata
+    };
+    return normalized;
+  };
+
   private handleIncomingNotification(notification: AppNotification): void {
+    // Normalize payloads from various backends to a consistent shape
+    const normalized = this.normalizeNotification(notification);
+
     // Emit to all subscribers
-    this.eventListeners.forEach((listeners, event) => {
+    this.eventListeners.forEach((listeners) => {
       listeners.forEach(callback => {
         try {
-          callback(notification);
+          callback(normalized);
         } catch (error) {
           console.error('Notification callback error:', error);
         }

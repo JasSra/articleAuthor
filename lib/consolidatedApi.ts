@@ -12,8 +12,8 @@ export const configureConsolidatedAPI = (jwt?: string) => {
   
   // Set proper headers
   OpenAPI.HEADERS = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+  // Do NOT set 'Content-Type' globally. It breaks multipart/form-data uploads.
+  'Accept': 'application/json',
   };
   
   // Enable credentials for auth

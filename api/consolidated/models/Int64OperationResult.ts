@@ -24,4 +24,3 @@ export namespace Int64OperationResult {
 
 
 }
-

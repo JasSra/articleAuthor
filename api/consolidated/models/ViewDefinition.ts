@@ -20,4 +20,3 @@ export type ViewDefinition = {
     color?: string | null;
     roles?: Array<string> | null;
 };
-

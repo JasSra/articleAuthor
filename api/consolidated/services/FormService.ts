@@ -20,17 +20,17 @@ import { request as __request } from '../core/request';
 export class FormService {
 
     /**
-     * @param id
-     * @param page
-     * @param size
+     * @param id 
+     * @param page 
+     * @param size 
      * @returns GetFormEntriesResponse OK
      * @throws ApiError
      */
     public static getAllEntriesForForm(
-        id: string,
-        page: number = 1,
-        size: number = 20,
-    ): CancelablePromise<GetFormEntriesResponse> {
+id: string,
+page: number = 1,
+size: number = 20,
+): CancelablePromise<GetFormEntriesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form/{id}/entries',
@@ -45,13 +45,13 @@ export class FormService {
     }
 
     /**
-     * @param groupName
+     * @param groupName 
      * @returns LookupValue OK
      * @throws ApiError
      */
     public static getLookupsForName(
-        groupName: string,
-    ): CancelablePromise<Array<LookupValue>> {
+groupName: string,
+): CancelablePromise<Array<LookupValue>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form/lookup/{groupName}',
@@ -73,19 +73,19 @@ export class FormService {
     }
 
     /**
-     * @param module
-     * @param name
-     * @param page
-     * @param size
+     * @param module 
+     * @param name 
+     * @param page 
+     * @param size 
      * @returns ReferenceLookupSearchResult OK
      * @throws ApiError
      */
     public static getReferenceLookupsByModule(
-        module: string,
-        name: string,
-        page: number = 1,
-        size: number = 20,
-    ): CancelablePromise<ReferenceLookupSearchResult> {
+module: string,
+name: string,
+page: number = 1,
+size: number = 20,
+): CancelablePromise<ReferenceLookupSearchResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form/reference/module/{module}/entity/{name}/page/{page}/size/{size}',
@@ -99,13 +99,13 @@ export class FormService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static postApiFormIsBeingUsed(
-        requestBody?: ValidateFieldRequest,
-    ): CancelablePromise<BooleanOperationResult> {
+requestBody?: ValidateFieldRequest,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/form/is-being-used',
@@ -126,13 +126,13 @@ export class FormService {
     }
 
     /**
-     * @param slug
+     * @param slug 
      * @returns Form OK
      * @throws ApiError
      */
     public static getForm(
-        slug: string,
-    ): CancelablePromise<Form> {
+slug: string,
+): CancelablePromise<Form> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form/{slug}',
@@ -146,13 +146,13 @@ export class FormService {
     }
 
     /**
-     * @param slug
+     * @param slug 
      * @returns string OK
      * @throws ApiError
      */
     public static deleteForm(
-        slug: string,
-    ): CancelablePromise<string> {
+slug: string,
+): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/form/{slug}',
@@ -163,13 +163,13 @@ export class FormService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns Form OK
      * @throws ApiError
      */
     public static getFormById(
-        id: string,
-    ): CancelablePromise<Form> {
+id: string,
+): CancelablePromise<Form> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form/id/{id}',
@@ -183,15 +183,15 @@ export class FormService {
     }
 
     /**
-     * @param page
-     * @param size
+     * @param page 
+     * @param size 
      * @returns ListOfFormResponse OK
      * @throws ApiError
      */
     public static getAllForms(
-        page: number = 1,
-        size: number = 10,
-    ): CancelablePromise<ListOfFormResponse> {
+page: number = 1,
+size: number = 10,
+): CancelablePromise<ListOfFormResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/form',
@@ -203,13 +203,13 @@ export class FormService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns FormOperationResult OK
      * @throws ApiError
      */
     public static createForm(
-        requestBody?: Form,
-    ): CancelablePromise<FormOperationResult> {
+requestBody?: Form,
+): CancelablePromise<FormOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/form',
@@ -222,15 +222,15 @@ export class FormService {
     }
 
     /**
-     * @param slug
-     * @param requestBody
+     * @param slug 
+     * @param requestBody 
      * @returns string OK
      * @throws ApiError
      */
     public static isFormValid(
-        slug: string,
-        requestBody?: FormEntry,
-    ): CancelablePromise<string> {
+slug: string,
+requestBody?: FormEntry,
+): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/form/{slug}/validate',
@@ -243,13 +243,13 @@ export class FormService {
     }
 
     /**
-     * @param slug
+     * @param slug 
      * @returns FormResponse OK
      * @throws ApiError
      */
     public static submit(
-        slug: string,
-    ): CancelablePromise<FormResponse> {
+slug: string,
+): CancelablePromise<FormResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/form/{slug}/submit',

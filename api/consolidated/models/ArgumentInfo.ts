@@ -12,4 +12,3 @@ export type ArgumentInfo = {
     direction?: string | null;
     schema?: string | null;
 };
-

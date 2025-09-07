@@ -9,4 +9,3 @@ export type RegisterIdpRequest = {
     configuration?: IdpConfiguration;
     shouldValidate?: boolean;
 };
-

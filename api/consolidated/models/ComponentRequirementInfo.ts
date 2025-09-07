@@ -9,4 +9,3 @@ export type ComponentRequirementInfo = {
     type?: string | null;
     required?: boolean;
 };
-

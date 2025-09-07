@@ -15,13 +15,13 @@ import { request as __request } from '../core/request';
 export class IdentityProviderService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns IdpConfigurationOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityValidate(
-        requestBody?: ValidateIdpRequest,
-    ): CancelablePromise<IdpConfigurationOperationResult> {
+requestBody?: ValidateIdpRequest,
+): CancelablePromise<IdpConfigurationOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/validate',
@@ -31,13 +31,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns IdpConfigurationOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityValidate1(
-        id: string,
-    ): CancelablePromise<IdpConfigurationOperationResult> {
+id: string,
+): CancelablePromise<IdpConfigurationOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/validate/{id}',
@@ -48,13 +48,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns IdpConfigurationOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityRegister(
-        requestBody?: RegisterIdpRequest,
-    ): CancelablePromise<IdpConfigurationOperationResult> {
+requestBody?: RegisterIdpRequest,
+): CancelablePromise<IdpConfigurationOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/register',
@@ -64,13 +64,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns IdpConfigurationOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityDefault(
-        id: string,
-    ): CancelablePromise<IdpConfigurationOperationResult> {
+id: string,
+): CancelablePromise<IdpConfigurationOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/default/{id}',
@@ -106,13 +106,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns IdpConfigurationOperationResult OK
      * @throws ApiError
      */
     public static getApiIdentity(
-        id: string,
-    ): CancelablePromise<IdpConfigurationOperationResult> {
+id: string,
+): CancelablePromise<IdpConfigurationOperationResult> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/identity/{id}',
@@ -123,13 +123,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static deleteApiIdentity(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/identity/{id}',
@@ -140,13 +140,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityEnable(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/enable/{id}',
@@ -157,13 +157,13 @@ export class IdentityProviderService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static postApiIdentityDisable(
-        id: string,
-    ): CancelablePromise<BooleanOperationResult> {
+id: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/identity/disable/{id}',

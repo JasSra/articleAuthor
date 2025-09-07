@@ -8,4 +8,3 @@ export type NotificationAction = {
     actionId?: string | null;
     href?: string | null;
 };
-

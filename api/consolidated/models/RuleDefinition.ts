@@ -57,4 +57,3 @@ export namespace RuleDefinition {
 
 
 }
-

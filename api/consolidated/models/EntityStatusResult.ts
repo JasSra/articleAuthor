@@ -8,4 +8,3 @@ export type EntityStatusResult = {
     effectiveFrom?: string | null;
     effectiveTo?: string | null;
 };
-

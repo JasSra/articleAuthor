@@ -8,4 +8,3 @@ export type HourlyEventDistribution = {
     eventCount?: number;
     percentage?: number;
 };
-

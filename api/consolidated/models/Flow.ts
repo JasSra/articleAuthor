@@ -34,4 +34,3 @@ export type Flow = {
     triggerConfig?: Record<string, string> | null;
     isDeleted?: boolean;
 };
-

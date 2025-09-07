@@ -8,4 +8,3 @@ export type ConstraintComponent = {
     value?: any;
     description?: string | null;
 };
-

@@ -21,4 +21,3 @@ export type Template = {
     content?: string | null;
     description?: string | null;
 };
-

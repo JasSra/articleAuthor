@@ -8,4 +8,3 @@ export type PasskeyVerificationResponse = {
     message?: string | null;
     credentialId?: string | null;
 };
-

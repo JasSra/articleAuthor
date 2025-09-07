@@ -9,4 +9,3 @@ export type AIEventRequest = {
     eventName: string;
     payload?: AIEventPayload;
 };
-

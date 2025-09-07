@@ -8,4 +8,3 @@ export type TotpVerificationResponse = {
     message?: string | null;
     additionalRecoveryCodes?: Array<string> | null;
 };
-

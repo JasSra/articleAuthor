@@ -8,4 +8,3 @@ import type { Argument } from './Argument';
 export type ValidateConfigRequest = {
     arguments?: Array<Argument> | null;
 };
-

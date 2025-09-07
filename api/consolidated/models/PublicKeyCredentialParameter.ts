@@ -7,4 +7,3 @@ export type PublicKeyCredentialParameter = {
     type?: string | null;
     alg?: number;
 };
-

@@ -11,4 +11,3 @@ export type ListOfFormResponse = {
     page?: number;
     size?: number;
 };
-

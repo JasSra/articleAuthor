@@ -7,7 +7,7 @@
     "build": "npm run gen:api && next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:api": "curl -s ${NEXT_PUBLIC_API_BASE:-http://localhost:5229}/swagger/v1/swagger.json -o ./api-consolidated-schema.json && npx openapi-typescript-codegen --input ./api-consolidated-schema.json --output api/consolidated --exportModels true",
+    "gen:api": "curl -s http://localhost:5229/swagger/v1/swagger.json -o ./api-consolidated-schema.json && npx openapi-typescript-codegen --input ./api-consolidated-schema.json --output api/consolidated --exportModels true",
     "seed:lookups": "tsx ./scripts/seed-lookups.ts",
     "seed:content": "tsx ./scripts/seed-content.ts",
     "seed:forms": "tsx ./scripts/seed-forms.ts",
@@ -35,6 +35,7 @@
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
   "turndown": "^7.2.0",
+  "marked": "^12.0.2",
     "uuid": "^9.0.1",
     "zustand": "^5.0.8"
   },

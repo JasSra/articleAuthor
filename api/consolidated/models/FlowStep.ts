@@ -20,4 +20,3 @@ export type FlowStep = {
     postConditions?: Array<WorkflowCondition> | null;
     timeout?: number | null;
 };
-

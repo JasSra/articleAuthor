@@ -15,13 +15,13 @@ import { request as __request } from '../core/request';
 export class OtpService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns OtpResponseOperationResult OK
      * @throws ApiError
      */
     public static postApiOtpSend(
-        requestBody?: SendOtpRequest,
-    ): CancelablePromise<OtpResponseOperationResult> {
+requestBody?: SendOtpRequest,
+): CancelablePromise<OtpResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Otp/send',
@@ -36,13 +36,13 @@ export class OtpService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns OtpResponseOperationResult OK
      * @throws ApiError
      */
     public static postApiOtpValidate(
-        requestBody?: ValidateOtpRequest,
-    ): CancelablePromise<OtpResponseOperationResult> {
+requestBody?: ValidateOtpRequest,
+): CancelablePromise<OtpResponseOperationResult> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Otp/validate',
@@ -57,13 +57,13 @@ export class OtpService {
     }
 
     /**
-     * @param sessionId
+     * @param sessionId 
      * @returns BooleanOperationResult OK
      * @throws ApiError
      */
     public static deleteApiOtpRevoke(
-        sessionId: string,
-    ): CancelablePromise<BooleanOperationResult> {
+sessionId: string,
+): CancelablePromise<BooleanOperationResult> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Otp/revoke/{sessionId}',

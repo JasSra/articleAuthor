@@ -12,4 +12,3 @@ export type BusinessSearchResult = {
     score?: number | null;
     isCurrentIndicator?: boolean | null;
 };
-

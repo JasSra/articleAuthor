@@ -25,4 +25,3 @@ export namespace ContactOperationResult {
 
 
 }
-

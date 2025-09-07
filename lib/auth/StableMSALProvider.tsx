@@ -7,7 +7,7 @@ import {
   InteractionRequiredAuthError,
   AuthenticationResult
 } from '@azure/msal-browser'
-import { msalConfig, loginRequest, tokenRequest } from './msalConfig'
+import { msalConfig, loginRequest, tokenRequest, MSAL_SCOPES } from './msalConfig'
 
 // Create MSAL instance
 export const msalInstance = new PublicClientApplication(msalConfig)
@@ -106,6 +106,7 @@ interface AuthContextType {
   recentAuthEvent: 'signup' | 'login' | null
   clearRecentAuthEvent: () => void
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void
+  scopes?: typeof MSAL_SCOPES
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -288,9 +289,19 @@ export function StableMSALProvider({ children }: AuthProviderProps) {
   const handleUserProfile = useCallback(async (account: AccountInfo, accessToken: string) => {
     try {
       // For now, create a simple profile from account info
+      const claims = (account?.idTokenClaims as any) || {}
+      // Common claim locations for roles in B2C (custom policies vary): 'roles', 'extension_Roles', 'extension_roles'
+      const rolesFromClaims: string[] | null = Array.isArray(claims.roles)
+        ? (claims.roles as string[])
+        : Array.isArray(claims.extension_Roles)
+          ? (claims.extension_Roles as string[])
+          : Array.isArray(claims.extension_roles)
+            ? (claims.extension_roles as string[])
+            : null
+
       const userProfile: UserProfile = {
         email: getUserEmail(account),
-        roles: ['User'] // Default role, could be enhanced to extract from token claims
+        roles: rolesFromClaims ?? ['User']
       }
       
       setProfile(userProfile)
@@ -374,7 +385,8 @@ export function StableMSALProvider({ children }: AuthProviderProps) {
     profile,
     recentAuthEvent,
     clearRecentAuthEvent,
-    showToast
+  showToast,
+  scopes: MSAL_SCOPES
   }), [
     isAuthenticated,
     user,
@@ -387,7 +399,7 @@ export function StableMSALProvider({ children }: AuthProviderProps) {
     profile,
     recentAuthEvent,
     clearRecentAuthEvent,
-    showToast
+  showToast
   ])
 
   return (

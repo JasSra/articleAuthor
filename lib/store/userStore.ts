@@ -44,6 +44,9 @@ export interface UserStore {
   // Application state
   appState: AppState;
   
+  // Hydration state for persisted store
+  hasHydrated: boolean;
+  
   // Actions for preferences
   updatePreferences: (preferences: Partial<UserPreferences>) => void;
   resetPreferences: () => void;
@@ -64,6 +67,9 @@ export interface UserStore {
   clearAllData: () => void;
   exportUserData: () => string;
   importUserData: (data: string) => void;
+
+  // Internal: set hydration flag
+  setHasHydrated: (value: boolean) => void;
 }
 
 // Default preferences
@@ -102,6 +108,7 @@ export const useUserStore = create<UserStore>()(
     (set, get) => ({
       preferences: defaultPreferences,
       appState: defaultAppState,
+  hasHydrated: false,
       
       // Preference actions
       updatePreferences: (newPreferences: Partial<UserPreferences>) =>
@@ -256,10 +263,14 @@ export const useUserStore = create<UserStore>()(
           throw new Error('Invalid user data format');
         }
       },
+
+      // Internal: hydration flag setter
+      setHasHydrated: (value: boolean) => set({ hasHydrated: value }),
     }),
     {
       name: 'user-store',
-      storage: createJSONStorage(() => localStorage),
+      // Ensure storage is only used in the browser and avoid SSR hydration issues
+      storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
       partialize: (state) => ({
         preferences: state.preferences,
         appState: {
@@ -268,6 +279,16 @@ export const useUserStore = create<UserStore>()(
           unsavedChanges: false,
         },
       }),
+      // Avoid hydration mismatch loops in Next.js app router
+      skipHydration: true,
+      // Track hydration lifecycle to allow components to wait until rehydrated
+      onRehydrateStorage: () => (state, error) => {
+        try {
+          state?.setHasHydrated(true);
+        } catch (e) {
+          // no-op
+        }
+      },
       // Custom merge function to handle data migrations
       merge: (persistedState, currentState) => {
         if (!persistedState) return currentState;
@@ -297,6 +318,9 @@ export const useUserPreferences = () => useUserStore((state) => state.preference
 
 // Hook for getting app state only
 export const useAppState = () => useUserStore((state) => state.appState);
+
+// Hook for hydration status
+export const useUserStoreHydrated = () => useUserStore((state) => state.hasHydrated);
 
 // Hook for getting preference actions only
 export const usePreferenceActions = () => useUserStore((state) => ({

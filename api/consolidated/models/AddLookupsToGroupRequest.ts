@@ -7,4 +7,3 @@ export type AddLookupsToGroupRequest = {
     lookups?: Record<string, string> | null;
     order?: number;
 };
-

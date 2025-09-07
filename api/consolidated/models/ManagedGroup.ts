@@ -22,4 +22,3 @@ export type ManagedGroup = {
     userIds?: Array<string> | null;
     permissions?: Record<string, 'None' | 'Read' | 'Query' | 'Create' | 'Write' | 'Delete' | 'Execute' | 'Share' | 'Manage' | 'Admin'> | null;
 };
-

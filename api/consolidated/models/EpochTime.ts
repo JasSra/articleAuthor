@@ -13,4 +13,3 @@ export type EpochTime = {
     readonly year?: number;
     dayOfWeek?: DayOfWeek;
 };
-

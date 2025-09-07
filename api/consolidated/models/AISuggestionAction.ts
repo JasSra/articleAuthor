@@ -9,4 +9,3 @@ export type AISuggestionAction = {
     label?: string | null;
     parameters?: Record<string, any> | null;
 };
-

@@ -12,4 +12,3 @@ export type StateNode = {
     postConditions?: Array<QueryParam> | null;
     metadata?: Record<string, any> | null;
 };
-

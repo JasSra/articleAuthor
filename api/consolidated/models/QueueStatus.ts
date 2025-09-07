@@ -8,4 +8,3 @@ export type QueueStatus = {
     messages?: Array<string> | null;
     length?: number;
 };
-

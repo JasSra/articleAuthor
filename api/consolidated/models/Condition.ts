@@ -50,4 +50,3 @@ export namespace Condition {
 
 
 }
-

@@ -22,4 +22,3 @@ export type RemittanceSchedule = {
     remittanceItems?: Array<RemittanceRangeItem> | null;
     isFeesForwardedToUser?: boolean;
 };
-

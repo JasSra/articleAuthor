@@ -13,4 +13,3 @@ export type StateTransition = {
     actions?: Array<TransitionAction> | null;
     metadata?: Record<string, any> | null;
 };
-

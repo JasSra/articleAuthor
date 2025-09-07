@@ -11,4 +11,3 @@ export type GetFormEntriesResponse = {
     page?: number;
     size?: number;
 };
-

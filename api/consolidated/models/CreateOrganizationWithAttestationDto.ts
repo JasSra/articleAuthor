@@ -24,4 +24,3 @@ export type CreateOrganizationWithAttestationDto = {
     isTermsAndConditionAccepted?: boolean | null;
     isMock?: boolean;
 };
-

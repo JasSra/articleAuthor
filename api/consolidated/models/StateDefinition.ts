@@ -28,4 +28,3 @@ export type StateDefinition = {
     startState?: string | null;
     endStates?: Array<string> | null;
 };
-

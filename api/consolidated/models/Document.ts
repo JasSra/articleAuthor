@@ -22,4 +22,3 @@ export type Document = {
     url?: string | null;
     userId?: string | null;
 };
-

@@ -13,4 +13,3 @@ export type SignWithPayloadRequest = {
     subject?: string | null;
     context?: string | null;
 };
-

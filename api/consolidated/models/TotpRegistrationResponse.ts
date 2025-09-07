@@ -11,4 +11,3 @@ export type TotpRegistrationResponse = {
     instructions?: string | null;
     recoveryCodes?: Array<string> | null;
 };
-

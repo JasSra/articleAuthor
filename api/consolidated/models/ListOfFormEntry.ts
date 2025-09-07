@@ -7,4 +7,3 @@ export type ListOfFormEntry = {
     id?: string | null;
     slug?: string | null;
 };
-

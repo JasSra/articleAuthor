@@ -6,4 +6,3 @@
 export type PasskeyVerificationRequest = {
     attestationResponse: string;
 };
-

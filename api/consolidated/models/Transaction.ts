@@ -28,4 +28,3 @@ export type Transaction = {
     paymentIntent?: string | null;
     providerResponse?: string | null;
 };
-
