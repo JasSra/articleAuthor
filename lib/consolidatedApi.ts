@@ -21,6 +21,27 @@ export const configureConsolidatedAPI = (jwt?: string) => {
   OpenAPI.CREDENTIALS = 'include';
 };
 
+// Helper function to ensure API is configured before making any service call
+export const ensureAPIConfigured = (jwt?: string) => {
+  configureConsolidatedAPI(jwt);
+};
+
+// Wrapper function for making authenticated API calls
+export const withAuthenticatedAPI = async <T>(
+  jwt: string | null | undefined,
+  apiCall: () => Promise<T>
+): Promise<T> => {
+  if (!jwt) {
+    throw new Error('Authentication required: No JWT token available');
+  }
+  
+  // Configure API with JWT before making the call
+  configureConsolidatedAPI(jwt);
+  
+  // Execute the API call
+  return await apiCall();
+};
+
 // Get configured base URL
 export const getAPIBaseURL = (): string => {
   return process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5229';

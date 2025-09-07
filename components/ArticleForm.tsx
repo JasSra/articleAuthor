@@ -3,9 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { Article, createApiClient } from '@/lib/apiClient';
 import { useAuth } from '@/lib/auth/StableMSALProvider';
+import { useAutoSave } from '@/lib/hooks/useAutoSave';
+import { useUserStore } from '@/lib/store/userStore';
 import StatusBadge from './StatusBadge';
 import WorkflowVisualization from './WorkflowVisualization';
 import MarkdownEditor from './MarkdownEditor';
+import DirectMarkdownEditor from './DirectMarkdownEditor';
+import AutoSaveIndicator from './AutoSaveIndicator';
 
 interface ArticleFormProps {
   article?: Article;
@@ -20,8 +24,30 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
   const [status, setStatus] = useState(article?.status || 'draft');
   const [content, setContent] = useState('');
   const [contentHtml, setContentHtml] = useState('');
+  const [editorType, setEditorType] = useState<'rich' | 'direct'>('direct'); // Default to direct markdown
   const [loading, setLoading] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | undefined>();
+  const [autoSaveError, setAutoSaveError] = useState<string>('');
+  
   const { jwt } = useAuth();
+  const { preferences } = useUserStore();
+  
+  // Auto-save functionality
+  const { forceSave, isSaving, hasUnsavedChanges } = useAutoSave({
+    articleId: article?.id,
+    content: content,
+    title: title,
+    enabled: status === 'draft' && !!article?.id,
+    onSave: (success) => {
+      if (success) {
+        setLastSaved(new Date());
+        setAutoSaveError('');
+      }
+    },
+    onError: (error) => {
+      setAutoSaveError(error.message);
+    }
+  });
 
   // Initialize content from article if editing
   useEffect(() => {
@@ -138,8 +164,27 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
               {article ? 'Edit Article' : 'New Article'}
             </h2>
             {article && <StatusBadge status={status} />}
+            {/* Auto-save indicator */}
+            {article && preferences.autoSave && (
+              <AutoSaveIndicator
+                isSaving={isSaving}
+                hasUnsavedChanges={hasUnsavedChanges}
+                lastSaved={lastSaved}
+                error={autoSaveError}
+              />
+            )}
           </div>
           <div className="flex items-center space-x-3">
+            {/* Force save button for manual save */}
+            {article && hasUnsavedChanges && (
+              <button
+                onClick={forceSave}
+                disabled={isSaving}
+                className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 disabled:opacity-50"
+              >
+                Save Now
+              </button>
+            )}
             <button
               onClick={handleSave}
               disabled={loading || !title}
@@ -225,18 +270,65 @@ export default function ArticleForm({ article, onSave, onSubmit }: ArticleFormPr
           />
         </div>
 
+        {/* Editor Type Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Editor Type
+          </label>
+          <div className="flex rounded-lg border border-gray-300 bg-white p-1 w-fit">
+            <button
+              type="button"
+              onClick={() => setEditorType('rich')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                editorType === 'rich'
+                  ? 'bg-blue-500 text-white shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              🎨 Rich Text Editor
+            </button>
+            <button
+              type="button"
+              onClick={() => setEditorType('direct')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                editorType === 'direct'
+                  ? 'bg-blue-500 text-white shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              📝 Direct Markdown
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            {editorType === 'rich' 
+              ? 'WYSIWYG editor with rich formatting toolbar'
+              : 'Pure markdown editor with live preview'
+            }
+          </p>
+        </div>
+
         {/* Editor */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Content
           </label>
-          <MarkdownEditor
-            value={content}
-            onChange={handleContentChange}
-            placeholder="Start writing your article..."
-            enableAISuggestions={true}
-            className="min-h-[500px]"
-          />
+          {editorType === 'rich' ? (
+            <MarkdownEditor
+              value={content}
+              onChange={handleContentChange}
+              placeholder="Start writing your article..."
+              enableAISuggestions={true}
+              className="min-h-[500px]"
+            />
+          ) : (
+            <DirectMarkdownEditor
+              value={content}
+              onChange={(markdown) => handleContentChange(markdown, markdown)}
+              placeholder="Start writing in markdown..."
+              enableAISuggestions={true}
+              className="min-h-[500px]"
+            />
+          )}
         </div>
 
         {/* Workflow Visualization - show when editing existing article */}

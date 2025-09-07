@@ -11,7 +11,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { EventTrackerService } from '@/api/consolidated';
 import { createApiClient } from '@/lib/apiClient';
-import { configureConsolidatedAPI } from '@/lib/consolidatedApi';
+import { withAuthenticatedAPI } from '@/lib/consolidatedApi';
 import { useAuth } from '@/lib/auth/StableMSALProvider';
 import { uploadFile } from '@/lib/upload';
 import type { AISuggestion, PredictionContext } from '@/api/consolidated';
@@ -391,24 +391,25 @@ export default function MarkdownEditor({
 
     setIsLoadingSuggestions(true);
     try {
-      // Configure the consolidated API with JWT
-      configureConsolidatedAPI(jwt);
-      
-      const predictionContext: PredictionContext = {
-        pageName: 'article-editor',
-        userRole: 'author',
-        sessionId: `editor-${Date.now()}`,
-        timestamp: new Date().toISOString(),
-        recentActions: ['writing', 'editing'],
-        sessionMetadata: {
-          contentLength: content.length,
-          wordCount: content.split(/\s+/).length,
-          hasImages: content.includes('<img'),
-          hasLinks: content.includes('<a href'),
-        },
-      };
+      // Use authenticated API wrapper to ensure JWT is configured
+      const suggestions = await withAuthenticatedAPI(jwt, async () => {
+        const predictionContext: PredictionContext = {
+          pageName: 'article-editor',
+          userRole: 'author',
+          sessionId: `editor-${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          recentActions: ['writing', 'editing'],
+          sessionMetadata: {
+            contentLength: content.length,
+            wordCount: content.split(/\s+/).length,
+            hasImages: content.includes('<img'),
+            hasLinks: content.includes('<a href'),
+          },
+        };
 
-      const suggestions = await EventTrackerService.postApiEventTrackerSuggestions(predictionContext);
+        return await EventTrackerService.postApiEventTrackerSuggestions(predictionContext);
+      });
+      
       setAiSuggestions(suggestions);
     } catch (error) {
       console.error('Failed to get AI suggestions:', error);

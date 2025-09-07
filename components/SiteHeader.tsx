@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth/StableMSALProvider';
+import NotificationBell from '@/components/NotificationBell';
 
 const SiteHeader = memo(function SiteHeader() {
   const { isAuthenticated, account, login, logout, profile } = useAuth();
@@ -33,6 +34,7 @@ const SiteHeader = memo(function SiteHeader() {
           <div className="flex items-center space-x-3">
             {isAuthenticated ? (
               <>
+                <NotificationBell />
                 <span className="hidden sm:inline text-sm text-gray-700">{profile?.email || name}</span>
                 {profile?.roles && (
                   <div className="hidden md:flex items-center space-x-1">
